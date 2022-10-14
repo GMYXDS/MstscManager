@@ -1,0 +1,125 @@
+# MstscManager
+
+## 项目介绍
+
+MSTSC远程管理器
+
+一个支持MSTSC，Putty，Xshell，Xftp，Radmin，VNC，Winscp，SecureCRT的远程管理器
+
+## 已支持的功能
+
+- [x] 支持常用的连接软件，如RDP,Putty,Xshell,Xftp,Radmin,VNC,Winscp,SecureCRT
+- [x] 支持服务器的增、删、改、查等管理操作
+- [x] 服务器分类、搜索、排序、更改分类功能
+- [x] 支持用户账号密码管理
+- [x] 支持ping状态显示
+- [x] 支持服务器到期提醒
+- [x] 支持超级管理员密码，开启软件输入密码
+- [x] 可以导入-导出服务器配置
+- [x] 支持大部分MSTSC的配置功能
+- [x] 可以一键导入本地的MSTSC链接
+- [x] 支持临时连接，添加服务器
+- [x] 拖拽分类服务器
+- [x] 支持自定义命令
+- [x] 三方EXE和数据库可以自由指定位置
+
+## 如何下载
+
+1）你可以下载源码，自行编译后使用。
+
+2）点击右侧release，找到对应的zip文件，下载后，使用里面的【MSTSC远程管理器.exe】主程序文件
+
+备注：`MSTSC远程管理器winx86.zip`,`MSTSC远程管理器winx64.zip`,`MSTSC远程管理器winnx86_withdotnet.zip`
+
+,`MSTSC远程管理器winx64_withdotnet.zip`，四个版本中前两个不带.NET环境，需要自行安装.NET6 Runtime环境，小白无脑选择后面2个就行。
+
+## 使用说明
+
+- 增删改查
+
+![增删改](images/增删改.gif)
+
+- 删除 按住ctrl 可以多选主机删除
+
+![删除](images/删除.gif)
+
+- 分类-搜索
+
+![搜索](images/搜索.gif)
+
+- 账户管理
+
+![用户管理](images/用户管理.gif)
+
+- 选择账户
+
+![image-20221014090815678](images/image-20221014090815678.png)
+
+- ping 到期状态
+
+![image-20221014091108282](images/image-20221014091108282.png)
+
+- 设置开启密码
+
+![开启密码](images/开启密码.gif)
+
+- 导入导出服务器列表
+
+![导入](images/导入.gif)
+
+- 临时添加和连接服务器
+
+![临时](images/临时.gif)
+
+- 自定义命令
+
+![自定义](images/自定义.gif)
+
+- 设置三方exe路径
+
+![image-20221014092752043](images/image-20221014092752043.png)
+
+- 其他功能自行体验
+
+## 注意
+
+- putty 目前只支持密码登录,密钥登录需要使用自定义配置
+
+- 如果xftp ftp模式连接不上，需要自定义用session连接.。如下
+
+![image-20221011210424699](images/image-20221011210424699.png)
+
+手动建立ftp 连接，然后点打开会话位置，复制会话的路径，使用自定义配置如下
+
+![image-20221011210627832](images/image-20221011210627832.png)
+
+![image-20221011210646631](images/image-20221011210646631.png)
+
+```
+ "xfp路径/新建会话.xfp"
+```
+
+
+
+- vnc的话，Realvnc 没有支持密码的命令行选项，需要自定义用配置文件连接
+
+- Tightvnc 不支持全屏和查看模式的命令行 需要自定义配置文件连接
+
+## 如何编译
+
+软件采用C#  .Net 6 的Winform 编写的，使用了SunnyUI作为UI框架，开发环境使用的是VS2022.
+
+一般来说直接导入解决方案应该可以正常运行和编译
+
+nuget包使用了，自行导入使用
+
+```
+Microsoft.Data.Sqlite.Core
+Newtonsoft.Json
+SQLitePCLRaw.bundle_e_sqlcipher
+SunnyUI
+```
+
+## 最后
+
+如果对这个项目感兴趣欢迎star，有疑问欢迎issue，pr
