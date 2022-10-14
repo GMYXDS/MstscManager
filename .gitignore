@@ -342,3 +342,4 @@ ASALocalRun/
 healthchecksdb
 /MstscManager/bin
 /MstscManager/obj
+/output
