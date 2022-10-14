@@ -3,7 +3,7 @@ using MstscManager.Utils;
 
 namespace MstscManager.Controls {
     public partial class About : UIPage {
-        string now_version = "1.0";
+        string now_version = "1.1";
         string update_url = "";
         public About() {
             InitializeComponent();
