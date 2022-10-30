@@ -134,7 +134,7 @@
             this.uiLabel2.Size = new System.Drawing.Size(275, 62);
             this.uiLabel2.Style = Sunny.UI.UIStyle.Custom;
             this.uiLabel2.TabIndex = 8;
-            this.uiLabel2.Text = "联系作者：gmyxds132@163com\n网       站：https://gmyxds.fun/";
+            this.uiLabel2.Text = "联系作者：gmyxds132@163com\n网       站：https://b.gmyxds.fun/";
             this.uiLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabel2.Visible = false;
             this.uiLabel2.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);

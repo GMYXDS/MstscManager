@@ -44,6 +44,7 @@
             this.uiButton4 = new Sunny.UI.UIButton();
             this.uiButton2 = new Sunny.UI.UIButton();
             this.uiButton6 = new Sunny.UI.UIButton();
+            this.uiLabel10 = new Sunny.UI.UILabel();
             this.uiPanel4 = new Sunny.UI.UIPanel();
             this.uiPanel5 = new Sunny.UI.UIPanel();
             this.uiTextBox1 = new Sunny.UI.UITextBox();
@@ -84,6 +85,9 @@
             this.connect_setting = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.uiToolTip1 = new Sunny.UI.UIToolTip(this.components);
             this.uiStyleManager1 = new Sunny.UI.UIStyleManager(this.components);
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.uiContextMenuStrip2 = new Sunny.UI.UIContextMenuStrip();
+            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uiContextMenuStrip1.SuspendLayout();
             this.uiPanel3.SuspendLayout();
             this.uiPanel6.SuspendLayout();
@@ -93,6 +97,7 @@
             this.uiPanel1.SuspendLayout();
             this.uiPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiDataGridView1)).BeginInit();
+            this.uiContextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // uiTreeView1
@@ -213,6 +218,7 @@
             this.uiTableLayoutPanel1.Controls.Add(this.uiButton4, 3, 0);
             this.uiTableLayoutPanel1.Controls.Add(this.uiButton2, 1, 0);
             this.uiTableLayoutPanel1.Controls.Add(this.uiButton6, 4, 0);
+            this.uiTableLayoutPanel1.Controls.Add(this.uiLabel10, 5, 0);
             this.uiTableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uiTableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.uiTableLayoutPanel1.Name = "uiTableLayoutPanel1";
@@ -257,7 +263,7 @@
             this.uiButton4.Name = "uiButton4";
             this.uiButton4.Size = new System.Drawing.Size(94, 33);
             this.uiButton4.TabIndex = 3;
-            this.uiButton4.Text = "TXT导入";
+            this.uiButton4.Text = "CSV导入";
             this.uiButton4.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.uiButton4.Click += new System.EventHandler(this.uiButton4_Click);
             // 
@@ -282,9 +288,20 @@
             this.uiButton6.Name = "uiButton6";
             this.uiButton6.Size = new System.Drawing.Size(94, 33);
             this.uiButton6.TabIndex = 4;
-            this.uiButton6.Text = "TXT导出";
+            this.uiButton6.Text = "CSV导出";
             this.uiButton6.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.uiButton6.Click += new System.EventHandler(this.uiButton6_Click);
+            // 
+            // uiLabel10
+            // 
+            this.uiLabel10.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiLabel10.Location = new System.Drawing.Point(505, 0);
+            this.uiLabel10.Name = "uiLabel10";
+            this.uiLabel10.Size = new System.Drawing.Size(344, 39);
+            this.uiLabel10.TabIndex = 5;
+            this.uiLabel10.Text = "当前分类：全部分类 共有10台服务器";
+            this.uiLabel10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiLabel10.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
             // uiPanel4
             // 
@@ -857,6 +874,35 @@
             // 
             this.uiStyleManager1.DPIScale = true;
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon1.BalloonTipText = "已最小化到托盘";
+            this.notifyIcon1.BalloonTipTitle = "提示";
+            this.notifyIcon1.ContextMenuStrip = this.uiContextMenuStrip2;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "MSTSC远程管理器";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
+            // uiContextMenuStrip2
+            // 
+            this.uiContextMenuStrip2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
+            this.uiContextMenuStrip2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiContextMenuStrip2.IsScaled = true;
+            this.uiContextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.退出ToolStripMenuItem});
+            this.uiContextMenuStrip2.Name = "uiContextMenuStrip2";
+            this.uiContextMenuStrip2.Size = new System.Drawing.Size(113, 30);
+            this.uiContextMenuStrip2.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // 退出ToolStripMenuItem
+            // 
+            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(112, 26);
+            this.退出ToolStripMenuItem.Text = "退出";
+            this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
+            // 
             // FMain
             // 
             this.AllowDrop = true;
@@ -890,6 +936,7 @@
             this.uiPanel1.ResumeLayout(false);
             this.uiPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.uiDataGridView1)).EndInit();
+            this.uiContextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -950,5 +997,9 @@
         private Sunny.UI.UIToolTip uiToolTip1;
         private Sunny.UI.UISymbolButton uiSymbolButton1;
         private Sunny.UI.UIStyleManager uiStyleManager1;
+        private NotifyIcon notifyIcon1;
+        private Sunny.UI.UIContextMenuStrip uiContextMenuStrip2;
+        private ToolStripMenuItem 退出ToolStripMenuItem;
+        private Sunny.UI.UILabel uiLabel10;
     }
 }

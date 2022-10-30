@@ -32,6 +32,8 @@
             this.uiPanel1 = new Sunny.UI.UIPanel();
             this.uiLabel8 = new Sunny.UI.UILabel();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.uiMarkLabel3 = new Sunny.UI.UIMarkLabel();
+            this.uiCheckBox2 = new Sunny.UI.UICheckBox();
             this.uiPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,9 +79,9 @@
             this.uiLabel1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.uiLabel1.Location = new System.Drawing.Point(6, 10);
             this.uiLabel1.Name = "uiLabel1";
-            this.uiLabel1.Size = new System.Drawing.Size(127, 27);
+            this.uiLabel1.Size = new System.Drawing.Size(191, 27);
             this.uiLabel1.TabIndex = 3;
-            this.uiLabel1.Text = "配置保存位置：";
+            this.uiLabel1.Text = "数据库保存位置：";
             this.uiLabel1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabel1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
@@ -144,10 +146,37 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // uiMarkLabel3
+            // 
+            this.uiMarkLabel3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiMarkLabel3.Location = new System.Drawing.Point(32, 247);
+            this.uiMarkLabel3.Name = "uiMarkLabel3";
+            this.uiMarkLabel3.Padding = new System.Windows.Forms.Padding(5, 0, 0, 0);
+            this.uiMarkLabel3.Size = new System.Drawing.Size(100, 23);
+            this.uiMarkLabel3.TabIndex = 24;
+            this.uiMarkLabel3.Text = "关闭";
+            this.uiMarkLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiMarkLabel3.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // uiCheckBox2
+            // 
+            this.uiCheckBox2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiCheckBox2.Location = new System.Drawing.Point(48, 286);
+            this.uiCheckBox2.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiCheckBox2.Name = "uiCheckBox2";
+            this.uiCheckBox2.Padding = new System.Windows.Forms.Padding(22, 0, 0, 0);
+            this.uiCheckBox2.Size = new System.Drawing.Size(242, 29);
+            this.uiCheckBox2.TabIndex = 23;
+            this.uiCheckBox2.Text = "关闭后最小化到托盘";
+            this.uiCheckBox2.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiCheckBox2.CheckedChanged += new System.EventHandler(this.uiCheckBox2_CheckedChanged);
+            // 
             // Common_setting
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(424, 410);
+            this.Controls.Add(this.uiMarkLabel3);
+            this.Controls.Add(this.uiCheckBox2);
             this.Controls.Add(this.uiLabel8);
             this.Controls.Add(this.uiMarkLabel2);
             this.Controls.Add(this.uiMarkLabel1);
@@ -172,5 +201,7 @@
         private Sunny.UI.UIPanel uiPanel1;
         private Sunny.UI.UILabel uiLabel8;
         private OpenFileDialog openFileDialog1;
+        private Sunny.UI.UIMarkLabel uiMarkLabel3;
+        private Sunny.UI.UICheckBox uiCheckBox2;
     }
 }

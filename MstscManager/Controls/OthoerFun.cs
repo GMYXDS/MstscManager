@@ -18,5 +18,9 @@ namespace MstscManager.Controls {
         private void uiButton5_Click(object sender, EventArgs e) {
             Share.fm.simple_import();
         }
+
+        private void uiButton2_Click(object sender, EventArgs e) {
+            Share.fm.ping_now_items();
+        }
     }
 }

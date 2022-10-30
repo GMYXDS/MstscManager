@@ -1,13 +1,18 @@
 ﻿using Microsoft.Data.Sqlite;
 using System.Data;
+using System.Data.Common;
 using System.Text;
+using System.Transactions;
+using System.Windows.Input;
 
 namespace MstscManager.Utils {
     internal class DbSqlHelper {
         public static string ConnectionString { get; set; }
-        public static SqliteConnection reader_conn;
+        public static SqliteConnection common_conn = null;
+        public static SqliteTransaction common_transaction = null;
         private static void PrepareCommand(SqliteCommand cmd, SqliteConnection conn, string cmdText, params object[] p) {
             if (conn.State != ConnectionState.Open) conn.Open();
+            if(common_transaction!=null) cmd.Transaction = common_transaction;
             cmd.Parameters.Clear();
             cmd.Connection = conn;
             cmd.CommandText = cmdText;
@@ -28,28 +33,29 @@ namespace MstscManager.Utils {
             cmd.Prepare();
         }
         public static int ExecuteNonQuery(string cmdText, params object[] p) {
-            using (SqliteConnection conn = new SqliteConnection(ConnectionString)) {
-                using (SqliteCommand command = new SqliteCommand()) {
-                    PrepareCommand(command, conn, cmdText, p);
-                    return command.ExecuteNonQuery();
-                }
+            if (common_conn == null) common_conn = new SqliteConnection(ConnectionString);
+            //using (SqliteConnection conn = new SqliteConnection(ConnectionString)) {
+            using (SqliteCommand command = new SqliteCommand()) {
+                PrepareCommand(command, common_conn, cmdText, p);
+                return command.ExecuteNonQuery();
             }
+            //}
         }
         public static SqliteDataReader ExecuteReader(string cmdText, params object[] p) {
-            reader_conn = new SqliteConnection(ConnectionString);
+            if(common_conn==null) common_conn = new SqliteConnection(ConnectionString);
             SqliteCommand command = new SqliteCommand();
-            PrepareCommand(command, reader_conn, cmdText, p);
+            PrepareCommand(command, common_conn, cmdText, p);
             return command.ExecuteReader(CommandBehavior.CloseConnection);
             
         }
-        public static string ExecuteScalar(string cmdText, params object[] p) {
-            using (SqliteConnection conn = new SqliteConnection(ConnectionString)) {
-                using (SqliteCommand command = new SqliteCommand()) {
-                    PrepareCommand(command, conn, cmdText, p);
-                    return (string)command.ExecuteScalar();
-                }
-            }
-        }
+        //public static string ExecuteScalar(string cmdText, params object[] p) {
+        //    using (SqliteConnection conn = new SqliteConnection(ConnectionString)) {
+        //        using (SqliteCommand command = new SqliteCommand()) {
+        //            PrepareCommand(command, conn, cmdText, p);
+        //            return (string)command.ExecuteScalar();
+        //        }
+        //    }
+        //}
         public static int UpdatePassword( string newPassword) {
             using (var connection = new SqliteConnection(ConnectionString)) {
                 connection.Open();

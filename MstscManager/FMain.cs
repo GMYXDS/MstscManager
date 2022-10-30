@@ -9,15 +9,23 @@ using static System.Environment;
 using System.Data.Common;
 using System.Text;
 using Microsoft.Win32;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System;
+using System.Data;
+using System.Diagnostics;
 
 namespace MstscManager {
     public partial class FMain : UIForm {
         //public string db_path = System.Environment.GetFolderPath(SpecialFolder.LocalApplicationData) + "\\MstscManager.db";
         //public string db_path = System.Environment.CurrentDirectory + "\\data\\MstscManager.db";
         public string db_path = @"data\MstscManager.db";
+        public string iniconfig_path = Share.iniconfig_path;
+        public string iniconfig_action = Share.iniconfig_action;
         public string password = "123456";
         public string db_password = "123456";
         public string is_open_with_mm = "0";
+        public string is_hide_behind = "0";
+        public string tool_tip_show_once = "0";
         JObject now_csobj = new JObject();
         List<string> connct_types = new List<string> {
             "RDP","RDP-自定义",
@@ -48,20 +56,45 @@ namespace MstscManager {
             if (!Directory.Exists("data"))Directory.CreateDirectory("data");
             check();
         }
+        //迁移到v1.2
+        private void move_to_1_2() {
+            string? check = DbInihelper.GetIniData(iniconfig_action, "is_ask_move_1_2", iniconfig_path);
+            if (check == "1") return;
+            //1.询问，选择数据库位置
+
+            //2.导入数据库
+
+            //3.清除注册表
+            RegistryKey rkey = Registry.CurrentUser;
+            rkey.CreateSubKey(@"SOFTWARE\MstscManager");
+            rkey.DeleteSubKey(@"SOFTWARE\MstscManager");
+            //4.存储询问标志
+            DbInihelper.SetIniData(iniconfig_action, "is_ask_move_1_2", "1", iniconfig_path);
+        }
 
         private void check() {
             //注册表拿到是否需要开启输入密码配置
             //注册表拿密码
             //注册表拿sql位置
-            RegistryKey rkey = Registry.CurrentUser;
-            RegistryKey key = rkey.CreateSubKey(@"SOFTWARE\MstscManager");
-            key = rkey.OpenSubKey(@"SOFTWARE\MstscManager", true);
-            is_open_with_mm = key.GetValue("is_open_with_mm", "-1").ToString();
-            string mstsc_pass_s = key.GetValue("mstsc_pass", "-1").ToString();
-            string db_path_s = key.GetValue("db_path", "-1").ToString();
-            string old_db_path_s = key.GetValue("old_db_path", "-1").ToString();
-            save_height = key.GetValue("save_height", "").ToString();
-            save_width = key.GetValue("save_width", "").ToString();
+            //RegistryKey rkey = Registry.CurrentUser;
+            //RegistryKey key = rkey.CreateSubKey(@"SOFTWARE\MstscManager");
+            //key = rkey.OpenSubKey(@"SOFTWARE\MstscManager", true);
+            //is_open_with_mm = key.GetValue("is_open_with_mm", "-1").ToString();
+            //string mstsc_pass_s = key.GetValue("mstsc_pass", "-1").ToString();
+            //string db_path_s = key.GetValue("db_path", "-1").ToString();
+            //string old_db_path_s = key.GetValue("old_db_path", "-1").ToString();
+            //save_height = key.GetValue("save_height", "").ToString();
+            //save_width = key.GetValue("save_width", "").ToString();
+            //v1.2 改用iniconfig 
+            Dictionary<string, string>? dict = DbInihelper.GetIniSection(iniconfig_action, iniconfig_path);
+            if (dict == null) dict = new Dictionary<string, string>();
+            is_open_with_mm = dict.ContainsKey("is_open_with_mm") == true ? dict["is_open_with_mm"] :"-1";
+            is_hide_behind = dict.ContainsKey("is_hide_behind") == true ? dict["is_hide_behind"] :"0";
+            string mstsc_pass_s = dict.ContainsKey("mstsc_pass") == true ? dict["mstsc_pass"] :"-1";
+            string db_path_s = dict.ContainsKey("db_path") == true ? dict["db_path"] :"-1";
+            string old_db_path_s = dict.ContainsKey("old_db_path") == true ? dict["old_db_path"] :"-1";
+            save_height = dict.ContainsKey("save_height") == true ? dict["save_height"] : "";
+            save_width = dict.ContainsKey("save_width") == true ? dict["save_width"] : "";
             //初始化，数据库，界面
             if (db_path_s != "-1") { db_path = db_path_s; }
             if (old_db_path_s != "-1") { if (File.Exists(old_db_path_s))File.Delete(old_db_path_s);  }
@@ -69,10 +102,11 @@ namespace MstscManager {
                 string value = "";
                 if (this.InputStringDialog(ref value, true, "首次启动，请设置超级密码！", true)) {
                     string mm = common_tools.md5(value);
-                    key.SetValue("mstsc_pass", mm);
+                    //key.SetValue("mstsc_pass", mm);
+                    DbInihelper.SetIniData(iniconfig_action, "mstsc_pass", mm, iniconfig_path);
                     password = mm;
                     db_password = mm.Substring(0, 16);
-                    key.Close();rkey.Close();
+                    //key.Close();rkey.Close();
                     self_init();
                 } else {
                     System.Environment.Exit(0);
@@ -86,7 +120,7 @@ namespace MstscManager {
                         if (common_tools.md5(value.ToString()) == mstsc_pass_s) {
                             password = mstsc_pass_s;
                             db_password = mstsc_pass_s.Substring(0, 16);
-                            key.Close(); rkey.Close();
+                            //key.Close(); rkey.Close();
                             self_init();
                             return;
                         } else {
@@ -102,7 +136,7 @@ namespace MstscManager {
                 } else {
                     password = mstsc_pass_s;
                     db_password = mstsc_pass_s.Substring(0, 16);
-                    key.Close(); rkey.Close();
+                    //key.Close(); rkey.Close();
                     self_init();
                 }
             }
@@ -131,16 +165,27 @@ namespace MstscManager {
                     Pooling = true,
                 }.ToString();
                 DbSqlHelper.ConnectionString = connectionString;
+                if(DbSqlHelper.common_conn==null) DbSqlHelper.common_conn = new SqliteConnection(connectionString);
+                if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
+                // 开始计时
+                //Stopwatch watch = new Stopwatch();
+                //watch.Start();
+                //DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
                 DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS Group_setting( ID integer PRIMARY KEY AUTOINCREMENT , group_name TEXT);");
                 DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS Commom_setting( ID integer PRIMARY KEY AUTOINCREMENT , key TEXT, val TEXT);");
                 DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS User_setting( ID integer PRIMARY KEY AUTOINCREMENT , user_name TEXT, user_pass TEXT, mark_text TEXT);");
                 DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS Server_setting( ID integer PRIMARY KEY AUTOINCREMENT , server_name TEXT, group_id integer, connect_type TEXT, ip TEXT, port TEXT, user_name TEXT, user_pass TEXT, end_date TEXT,mark_text TEXT,user_id integer,connect_setting TEXT,connect_string TEXT);");
-            } catch (Exception) {
+                //DbSqlHelper.common_transaction.Commit();
+                //DbSqlHelper.common_transaction = null;
+                // 停止计时
+                //watch.Stop();
+                //Console.WriteLine(watch.Elapsed);
+            } catch (Exception e) {
+                Console.WriteLine(e);
                 ShowErrorTip("数据库打开错误！");
                 Thread.Sleep(1000);
                 System.Environment.Exit(0);
             }
-
         }
         private void UI_init() {
             InitImageList();
@@ -196,6 +241,7 @@ namespace MstscManager {
         }
         private void load_server_table(string sql, params object[] p) {
             SqliteDataReader reader = DbSqlHelper.ExecuteReader(sql, p);
+            int serer_num = 0;
             while (reader.Read()) {
                 int index = uiDataGridView1.Rows.Add((string)reader["connect_type"],
                     (string)reader["server_name"],
@@ -208,8 +254,10 @@ namespace MstscManager {
                     );
                 check_ping(index, reader["ip"].ToString());
                 if (reader["end_date"].ToString() != "") check_end_date(index, reader["end_date"].ToString());
+                serer_num++;
             }
             reader.Close();
+            uiLabel10.Text = $"当前分类：{Share.now_group_name} 共有 {serer_num} 台服务器";
             if(uiDataGridView1.Rows.Count>0)uiDataGridView1.Rows[0].Selected = false;
         }
         private void check_ping(int index, string ip) {
@@ -346,6 +394,7 @@ namespace MstscManager {
             if (flag) { group_id = Convert.ToInt32(reader["id"]); current_group_id = reader["id"].ToString(); }
             reader.Close();
             if (group_id == -1) { ShowErrorTip("没有查询到该分组！"); return; }
+            Share.now_group_name = group_name;
             load_server_table("select * from Server_setting where group_id = ?", group_id);
         }
         //添加服务器
@@ -369,15 +418,19 @@ namespace MstscManager {
                 var selected_rows = uiDataGridView1.SelectedRows;
                 try {
                     int len = uiDataGridView1.SelectedRows.Count;
+                    if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
+                    DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
                     for (int i = 0; i < len; i++) {
-                        SystemEx.Delay(50);
+                        //SystemEx.Delay(50);
                         SetStatusFormDescription("数据删除中......");
                         StatusFormStepIt();
                         string id = selected_rows[i].Cells[6].Value.ToString();
                         DbSqlHelper.ExecuteNonQuery("delete from Server_setting where id = ?", id);
-                        Thread.Sleep(50);
+                        //Thread.Sleep(50);
                         //uiDataGridView1.Rows.Remove(uiDataGridView1.SelectedRows[0]);
                     }
+                    DbSqlHelper.common_transaction.Commit();
+                    DbSqlHelper.common_transaction = null;
                 } catch (Exception) { };
                 HideStatusForm();
                 ShowSuccessTip("数据删除成功");
@@ -411,14 +464,20 @@ namespace MstscManager {
                 } catch (Exception) {
                     return;
                 }
+                // 开始计时
+                //Stopwatch watch = new Stopwatch();
+                //watch.Start();
+                if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
+                DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
                 for (int i = 0; i < contents.Length; i++) {
+                    if(i==0) continue;  
                     string[] strNew = contents[i].Split(new char[] { ',' });
                     if (strNew.Length != 10) continue;
                     if(!allow_types.Contains(strNew[2])) continue;
                     string group_id = "-1";
                     if (!group_dic.Keys.Contains(strNew[1])) { //insert gourp
                         DbSqlHelper.ExecuteNonQuery("INSERT INTO Group_setting (group_name) VALUES (?)", strNew[1]);
-                        Thread.Sleep(500);
+                        //Thread.Sleep(500);
                         SqliteDataReader reader1 = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?", strNew[1]);
                         if (reader1.Read()) {
                             group_dic.Add(strNew[1], reader1["id"].ToString());
@@ -430,23 +489,27 @@ namespace MstscManager {
                     group_id = group_dic[strNew[1]];
                     string connect_setting = get_default_config(true, strNew,group_id);
                     if (connect_setting == "") continue;
-                    DbSqlHelper.ExecuteNonQuery("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",
-                        strNew[0], group_id, strNew[2], strNew[3], strNew[4], strNew[5], strNew[6], strNew[7], strNew[8], "-1", connect_setting, strNew[9]);
+                    DbSqlHelper.ExecuteNonQuery("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",strNew[0], group_id, strNew[2], strNew[3], strNew[4], strNew[5], strNew[6], strNew[7], strNew[8], "-1", connect_setting, strNew[9]);
                 }
+                DbSqlHelper.common_transaction.Commit();
+                DbSqlHelper.common_transaction = null;
+                // 停止计时
+                //watch.Stop();
+                //Console.WriteLine(watch.Elapsed);
                 refresh_server_table();
                 UIMessageDialog.ShowMessageDialog("数据导入成功！", "提示", false, Style, false);
             }
         }
         private string show_dialog() {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Title = "请选择对应的txt文件";
+            ofd.Title = "请选择对应的CSV文件";
             //ofd.Multiselect = true;
             ofd.InitialDirectory = System.Environment.CurrentDirectory;
-            ofd.Filter = "可执行文件|*.txt|所有文件|*.*";
+            ofd.Filter = "所有文件|*.csv|文本文件|*.txt|所有文件|*.*";
             ofd.ShowDialog();
             return ofd.FileName;
         }
-        //simple导入
+        //其他功能-mstsc一键导入
         public void simple_import() {
             string tip_msg = "注意：一键导入只包括ip和端口，账号密码需要自己重新设置！";
             if (ShowAskDialog(tip_msg)) {
@@ -455,6 +518,13 @@ namespace MstscManager {
                 String[] names = key.GetValueNames();
                 int index = 1;
                 ShowStatusForm(names.Length, "数据导入中......", 0);
+                //查询当前选中的分组名称和id
+                DbDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?;",Share.now_group_name);
+                reader.Read();
+                string goup_id = reader["id"].ToString();
+                reader.Close();
+                if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
+                DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
                 foreach (string keyname in names) {
                     string ip = "127.0.0.1";
                     string port = "3389";
@@ -462,15 +532,17 @@ namespace MstscManager {
                     ip = ipport[0];
                     if (ipport.Length == 2) port = ipport[1];
                     //Console.WriteLine(ip+":"+port);
-                    string[] strNew = { "RDP_autoimport"+index.ToString(), "全部分类", "RDP", ip, port, "", "", "", "" };
-                    string connect_setting = get_default_config(true, strNew, "-1");
+                    string[] strNew = { "RDP_autoimport"+index.ToString(), Share.now_group_name, "RDP", ip, port, "", "", "", "" };
+                    string connect_setting = get_default_config(true, strNew, goup_id);
                     if (connect_setting == "") continue;
-                    DbSqlHelper.ExecuteNonQuery("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);", strNew[0], "-1", strNew[2], strNew[3], strNew[4], strNew[5], strNew[6], strNew[7], strNew[8], "-1", connect_setting, "");
+                    DbSqlHelper.ExecuteNonQuery("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);", strNew[0], goup_id, strNew[2], strNew[3], strNew[4], strNew[5], strNew[6], strNew[7], strNew[8], "-1", connect_setting, "");
                     index++;
                     SystemEx.Delay(50);
                     SetStatusFormDescription("数据导入中......");
                     StatusFormStepIt();
                 }
+                DbSqlHelper.common_transaction.Commit();
+                DbSqlHelper.common_transaction = null;
                 key.Close();
                 rkey.Close();
                 HideStatusForm();
@@ -478,13 +550,25 @@ namespace MstscManager {
                 refresh_server_table();
             }
         }
-        //text导出
+        //其他功能批量检测
+        public void ping_now_items() {
+            //拿到所有items 循环 执行函数
+            var rows = uiDataGridView1.Rows;
+            foreach(DataGridViewRow item in rows) {
+                int index = item.Index;
+                string ip = item.Cells[2].Value.ToString().Split(":")[0];
+                item.Cells[5].Value = "...";
+                check_ping(index, ip);
+            }
+        }
+            //text导出
         private void uiButton6_Click(object sender, EventArgs e) {
             string dir = "";
             if (DirEx.SelectDirEx("选择文件保存位置", ref dir)) {
                 //UIMessageTip.ShowOk(dir);
-                string path = Path.Combine(dir, "MstscManager_db_output.txt");
+                string path = Path.Combine(dir, "MstscManager_db_output.csv");
                 string spilt_txt = ",";
+                File.AppendAllText(path, "服务器名称,分类名称,连接类型,IP,端口,用户名,密码,到期时间,服务器备注,自定义规则\r\n", Encoding.UTF8);
                 //读取group
                 Dictionary<string, string> group_dic = new Dictionary<string, string>();
                 DbDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting");
@@ -569,20 +653,22 @@ namespace MstscManager {
             string port = uiTextBox2.Text;
             string user_name = uiTextBox4.Text;
             string user_pass = uiTextBox5.Text;
-            //适配点击右下角连接服务器 v1.2
-            if (user_pass == "") {
-                //补全userid的密码
-                string user_id = now_csobj["user_id"].ToString();
-                if (user_id != "-1") {
-                    DbDataReader reader = DbSqlHelper.ExecuteReader("select * from User_setting where id = ?", user_id);
-                    if (reader.Read()) {
-                        user_name = reader["user_name"].ToString();
-                        user_pass = reader["user_pass"].ToString();
+            if(!is_txt) { 
+                //适配点击右下角连接服务器 v1.2
+                if (user_pass == "") {
+                    //补全userid的密码
+                    string user_id = now_csobj["user_id"].ToString();
+                    if (user_id != "-1") {
+                        DbDataReader reader = DbSqlHelper.ExecuteReader("select * from User_setting where id = ?", user_id);
+                        if (reader.Read()) {
+                            user_name = reader["user_name"].ToString();
+                            user_pass = reader["user_pass"].ToString();
+                        }
                     }
+                }else if (user_pass == "*********") {
+                    user_name = now_csobj["user_name"].ToString();
+                    user_pass = now_csobj["user_pass"].ToString();
                 }
-            }else if (user_pass == "*********") {
-                user_name = now_csobj["user_name"].ToString();
-                user_pass = now_csobj["user_pass"].ToString();
             }
             string end_date = uiDatePicker1.Text;
             string mark_text = uiTextBox6.Text;
@@ -998,15 +1084,27 @@ namespace MstscManager {
         //记录窗口大小
         private void FMain_FormClosing(object sender, FormClosingEventArgs e) {
             //1150, 580
-            if (save_height == "") return;
-            RegistryKey rkey = Registry.CurrentUser;
-            RegistryKey key = rkey.CreateSubKey(@"SOFTWARE\MstscManager");
-            key = rkey.OpenSubKey(@"SOFTWARE\MstscManager", true);
-            key.SetValue("save_width", save_width);
-            key.SetValue("save_height", save_height);
-            key.Close();
-            rkey.Close();
-            return;
+            if (save_height == "") {
+                save_width = this.ClientSize.Width.ToString();
+                save_height = this.ClientSize.Height.ToString();
+            }
+            //RegistryKey rkey = Registry.CurrentUser;
+            //RegistryKey key = rkey.CreateSubKey(@"SOFTWARE\MstscManager");
+            //key = rkey.OpenSubKey(@"SOFTWARE\MstscManager", true);
+            //key.SetValue("save_width", save_width);
+            //key.SetValue("save_height", save_height);
+            //key.Close();
+            //rkey.Close();
+            DbInihelper.SetIniData(iniconfig_action, "save_width", save_width, iniconfig_path);
+            DbInihelper.SetIniData(iniconfig_action, "save_height", save_height, iniconfig_path);
+            if (is_hide_behind == "1") {
+                if(tool_tip_show_once=="0") notifyIcon1.ShowBalloonTip(1500);
+                this.Hide();
+                e.Cancel = true;
+                tool_tip_show_once = "1";
+            } else {
+                return;
+            }
         }
 
         private Rectangle dragBoxFromMouseDown;
@@ -1082,6 +1180,18 @@ namespace MstscManager {
         // 当收到第二个进程的通知时，显示气球消息
         void OnProgramStarted(object state, bool timeout) {
             ShowSuccessTip("当前程序正在运行");
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e) {
+            System.Environment.Exit(0);
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e) {
+            this.Show();
+        }
+
+        internal void set_hide_behind(string status) {
+            is_hide_behind = status;
         }
     }
 }

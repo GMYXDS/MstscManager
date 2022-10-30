@@ -25,6 +25,7 @@
         private void InitializeComponent() {
             this.uiButton5 = new Sunny.UI.UIButton();
             this.uiButton1 = new Sunny.UI.UIButton();
+            this.uiButton2 = new Sunny.UI.UIButton();
             this.SuspendLayout();
             // 
             // uiButton5
@@ -55,14 +56,29 @@
             this.uiButton1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             this.uiButton1.Click += new System.EventHandler(this.uiButton1_Click);
             // 
+            // uiButton2
+            // 
+            this.uiButton2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiButton2.Location = new System.Drawing.Point(0, 85);
+            this.uiButton2.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiButton2.Name = "uiButton2";
+            this.uiButton2.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
+            this.uiButton2.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.uiButton2.Size = new System.Drawing.Size(89, 35);
+            this.uiButton2.TabIndex = 4;
+            this.uiButton2.Text = "批量检测";
+            this.uiButton2.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiButton2.Click += new System.EventHandler(this.uiButton2_Click);
+            // 
             // OthoerFun
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.uiButton2);
             this.Controls.Add(this.uiButton1);
             this.Controls.Add(this.uiButton5);
-            this.MaximumSize = new System.Drawing.Size(89, 85);
+            this.MaximumSize = new System.Drawing.Size(89, 130);
             this.Name = "OthoerFun";
-            this.Size = new System.Drawing.Size(89, 85);
+            this.Size = new System.Drawing.Size(89, 130);
             this.ResumeLayout(false);
 
         }
@@ -70,5 +86,6 @@
         #endregion
         private Sunny.UI.UIButton uiButton5;
         private Sunny.UI.UIButton uiButton1;
+        private Sunny.UI.UIButton uiButton2;
     }
 }
