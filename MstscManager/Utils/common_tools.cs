@@ -35,7 +35,7 @@ namespace MstscManager.Utils {
                 Process pro = new Process();
                 pro.StartInfo.UseShellExecute = true;
                 pro.StartInfo.CreateNoWindow = false;
-                pro.StartInfo.FileName = @Path;
+                pro.StartInfo.FileName = Path;
                 pro.StartInfo.Arguments = arg;
                 //pro.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 //pro.StartInfo.WorkingDirectory = Path;

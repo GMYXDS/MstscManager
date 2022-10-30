@@ -123,6 +123,20 @@ SQLitePCLRaw.bundle_e_sqlcipher
 SunnyUI
 ```
 
+## 联系作者
+
+- 程序由我个人独立开发，能力有限，难免出现一些Bug，欢迎大家积极反馈Bug和提出优化建议。
+- 邮箱：[gmyxds132@163.com](mailto:gmyxds132@163.com)
+- 对软件有建议或意见：[产品建议](https://support.qq.com/product/451575)
+
+## 捐赠作者
+
+此程序完全免费，如果你觉得这个程序对你有所帮助，可以通过扫面下方二维码（支付宝、微信）
+进行捐赠，金额请随意，谢谢你的理解和支持！
+[捐赠名单](./Donate.md)
+
+<img src="images/收款码.png" alt="收款码" style="zoom:50%;" />
+
 ## 最后
 
 如果对这个项目感兴趣欢迎star，有疑问欢迎issue，pr

@@ -869,6 +869,7 @@
             this.ExtendBox = true;
             this.ExtendSymbol = 61459;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(960, 220);
             this.Name = "FMain";
             this.Padding = new System.Windows.Forms.Padding(2, 36, 2, 2);
             this.ShowDragStretch = true;

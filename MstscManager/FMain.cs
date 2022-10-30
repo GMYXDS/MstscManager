@@ -12,8 +12,9 @@ using Microsoft.Win32;
 
 namespace MstscManager {
     public partial class FMain : UIForm {
-        public string db_path = System.Environment.GetFolderPath(SpecialFolder.LocalApplicationData) + "\\MstscManager.db";
-        //public string db_path = System.Environment.CurrentDirectory + "\\MstscManager.db";
+        //public string db_path = System.Environment.GetFolderPath(SpecialFolder.LocalApplicationData) + "\\MstscManager.db";
+        //public string db_path = System.Environment.CurrentDirectory + "\\data\\MstscManager.db";
+        public string db_path = @"data\MstscManager.db";
         public string password = "123456";
         public string db_password = "123456";
         public string is_open_with_mm = "0";
@@ -44,6 +45,7 @@ namespace MstscManager {
         public FMain() {
             InitializeComponent();
             ThreadPool.RegisterWaitForSingleObject(Program.ProgramStarted, OnProgramStarted, null, -1, false);
+            if (!Directory.Exists("data"))Directory.CreateDirectory("data");
             check();
         }
 
@@ -385,8 +387,8 @@ namespace MstscManager {
         //text导入
         private void uiButton4_Click(object sender, EventArgs e) {
             string tip_msg = "提醒：导入必须按照下面规定数据导入：\n" +
-                "服务器名称,分类名称,连接类型,IP,端口,用户名,密码,到期时间,服务器备注\n" +
-                "9个数据，中间用英文逗号分开，没有的数据留空，一行一条数据\n" +
+                "服务器名称,分类名称,连接类型,IP,端口,用户名,密码,到期时间,服务器备注,自定义规则\n" +
+                "10个数据，中间用英文逗号分开，没有的数据留空，一行一条数据\n" +
                 "其中连接类型只能是下面列表里面的之一,区分大小写：\n" +
                 "RDP, Putty-ssh,Putty-telnet, Xshell-ssh,Xshell-telnet,Xshell-sftp, Xftp-sftp,Xshell-ftp, Radmin-完全控制,Radmin-仅限查看,Radmin-telnet,Radmin-文件传送,Radmin-关机,Radmin-聊天,Radmin-语音聊天,Radmin-传送信息, VNC-tightvnc,VNC-realvnc,VNC-ultravnc, Winscp-sftp,Winscp-scp,Winscp-ftp, SecureCrt-ssh1,SecureCrt-ssh2,SecureCrt-telnet\n" +
                 "不符合格式的数据将直接忽略，可以使用导出的模板进行编辑。";
@@ -411,7 +413,7 @@ namespace MstscManager {
                 }
                 for (int i = 0; i < contents.Length; i++) {
                     string[] strNew = contents[i].Split(new char[] { ',' });
-                    if (strNew.Length != 9) continue;
+                    if (strNew.Length != 10) continue;
                     if(!allow_types.Contains(strNew[2])) continue;
                     string group_id = "-1";
                     if (!group_dic.Keys.Contains(strNew[1])) { //insert gourp
@@ -428,7 +430,8 @@ namespace MstscManager {
                     group_id = group_dic[strNew[1]];
                     string connect_setting = get_default_config(true, strNew,group_id);
                     if (connect_setting == "") continue;
-                    DbSqlHelper.ExecuteNonQuery("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",strNew[0], group_id, strNew[2], strNew[3], strNew[4], strNew[5], strNew[6], strNew[7], strNew[8], "-1", connect_setting, "");
+                    DbSqlHelper.ExecuteNonQuery("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",
+                        strNew[0], group_id, strNew[2], strNew[3], strNew[4], strNew[5], strNew[6], strNew[7], strNew[8], "-1", connect_setting, strNew[9]);
                 }
                 refresh_server_table();
                 UIMessageDialog.ShowMessageDialog("数据导入成功！", "提示", false, Style, false);
@@ -503,7 +506,7 @@ namespace MstscManager {
                     s+= reader2["connect_type"].ToString() + spilt_txt + reader2["ip"].ToString() + spilt_txt + reader2["port"].ToString() + spilt_txt;
                     string user_id = reader2["user_id"].ToString();
                     if (user_id == "-1") { s += reader2["user_name"].ToString()+ spilt_txt + reader2["user_pass"].ToString()+ spilt_txt; } else { s += user_dic[user_id] + spilt_txt; }
-                    s += reader2["end_date"].ToString() + spilt_txt + reader2["mark_text"].ToString();
+                    s += reader2["end_date"].ToString() + spilt_txt + reader2["mark_text"].ToString().Replace("\r\n", "-").Replace("\n","-") + spilt_txt + reader2["connect_string"].ToString();
                     File.AppendAllText(path,s+"\r\n", Encoding.UTF8);
                 }
                 reader2.Close();
@@ -566,6 +569,21 @@ namespace MstscManager {
             string port = uiTextBox2.Text;
             string user_name = uiTextBox4.Text;
             string user_pass = uiTextBox5.Text;
+            //适配点击右下角连接服务器 v1.2
+            if (user_pass == "") {
+                //补全userid的密码
+                string user_id = now_csobj["user_id"].ToString();
+                if (user_id != "-1") {
+                    DbDataReader reader = DbSqlHelper.ExecuteReader("select * from User_setting where id = ?", user_id);
+                    if (reader.Read()) {
+                        user_name = reader["user_name"].ToString();
+                        user_pass = reader["user_pass"].ToString();
+                    }
+                }
+            }else if (user_pass == "*********") {
+                user_name = now_csobj["user_name"].ToString();
+                user_pass = now_csobj["user_pass"].ToString();
+            }
             string end_date = uiDatePicker1.Text;
             string mark_text = uiTextBox6.Text;
             string group_id = "-1";
@@ -602,6 +620,7 @@ namespace MstscManager {
             } else if (connect_type.IndexOf("SecureCrt") != -1) {
                 connect_setting = "{ \"connect_setting\": \"\", \"connect_string\": \"\", \"connect_type\": \"" + connect_type + "\", \"end_date\": \""+end_date+ "\", \"group_id\": \""+ group_id + "\", \"group_name\": \"" + group_name + "\", \"ip\": \"" + ip + "\", \"mark_text\": \""+ mark_text + "\", \"port\": \"" + port + "\", \"sec_connect_mode\": \"" + connect_type.Split("-")[1] + "\", \"server_name\": \""+ server_name + "\", \"user_id\": \"-1\", \"user_name\": \"" + user_name + "\", \"user_pass\": \"" + user_pass + "\", }";
             }
+            //Console.WriteLine(connect_setting);
             return connect_setting;
         }
         //添加服务器 临时
@@ -684,7 +703,8 @@ namespace MstscManager {
                 //检查是否设置对应exe
                 //参数写入文件
                 string path = System.Environment.GetFolderPath(SpecialFolder.LocalApplicationData)+ "\\Temp\\MstscManager.rdp";
-                if(File.Exists(path)) { File.Delete(path); };
+                //Console.WriteLine(path);
+                if (File.Exists(path)) { File.Delete(path); };
                 File.WriteAllLines(path, new string[] { 
                     "screen mode id:i:"+csobj["screen_mode"].ToString(),
                     "use multimon:i:"+csobj["use_multimon"].ToString(),
@@ -738,12 +758,13 @@ namespace MstscManager {
                     "rdgiskdcproxy:i:0",
                     "kdcproxyname:s:",
                 });
+                //解决路径空格问题  v1.2
+                path = "\"" + path + "\"";
                 //生成连接字符串
-                string connect_string = " "+path;
+                string connect_string = path;
                 if (csobj["p_admin_mode"].ToString() == "1") connect_string += " /admin";
                 else connect_string += " /console";
                 if (csobj["p_prompt"].ToString() == "1") connect_string += " /prompt";
-
                 //Console.WriteLine(connect_string);
                 common_tools.RunApp2("mstsc.exe", " " + connect_string);
             } 

@@ -35,10 +35,10 @@
             // uiButton1
             // 
             this.uiButton1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiButton1.Location = new System.Drawing.Point(48, 227);
+            this.uiButton1.Location = new System.Drawing.Point(149, 227);
             this.uiButton1.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton1.Name = "uiButton1";
-            this.uiButton1.Size = new System.Drawing.Size(286, 35);
+            this.uiButton1.Size = new System.Drawing.Size(185, 35);
             this.uiButton1.TabIndex = 13;
             this.uiButton1.Text = "确认";
             this.uiButton1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
