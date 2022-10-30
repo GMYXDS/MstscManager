@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Add_server));
             this.uiPanel1 = new Sunny.UI.UIPanel();
             this.uiHeaderButton8 = new Sunny.UI.UIHeaderButton();
@@ -43,6 +44,7 @@
             this.uiButton1 = new Sunny.UI.UIButton();
             this.uiPanel3 = new Sunny.UI.UIPanel();
             this.uiGroupBox1 = new Sunny.UI.UIGroupBox();
+            this.uiSymbolButton3 = new Sunny.UI.UISymbolButton();
             this.uiCheckBox2 = new Sunny.UI.UICheckBox();
             this.uiSymbolButton1 = new Sunny.UI.UISymbolButton();
             this.uiTextBox6 = new Sunny.UI.UITextBox();
@@ -62,7 +64,7 @@
             this.uiLabel4 = new Sunny.UI.UILabel();
             this.uiLabel5 = new Sunny.UI.UILabel();
             this.uiComboDataGridView1 = new Sunny.UI.UIComboDataGridView();
-            this.uiSymbolButton3 = new Sunny.UI.UISymbolButton();
+            this.uiStyleManager1 = new Sunny.UI.UIStyleManager(this.components);
             this.uiPanel1.SuspendLayout();
             this.uiPanel2.SuspendLayout();
             this.uiTabControl1.SuspendLayout();
@@ -447,6 +449,19 @@
             this.uiGroupBox1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiGroupBox1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
+            // uiSymbolButton3
+            // 
+            this.uiSymbolButton3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiSymbolButton3.Location = new System.Drawing.Point(276, 204);
+            this.uiSymbolButton3.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiSymbolButton3.Name = "uiSymbolButton3";
+            this.uiSymbolButton3.Size = new System.Drawing.Size(32, 31);
+            this.uiSymbolButton3.Style = Sunny.UI.UIStyle.Custom;
+            this.uiSymbolButton3.Symbol = 261550;
+            this.uiSymbolButton3.TabIndex = 41;
+            this.uiSymbolButton3.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiSymbolButton3.Click += new System.EventHandler(this.uiSymbolButton3_Click);
+            // 
             // uiCheckBox2
             // 
             this.uiCheckBox2.Checked = true;
@@ -737,18 +752,9 @@
             this.uiComboDataGridView1.SelectIndexChange += new Sunny.UI.UIDataGridView.OnSelectIndexChange(this.uiComboDataGridView1_SelectIndexChange_1);
             this.uiComboDataGridView1.ValueChanged += new Sunny.UI.UIComboDataGridView.OnValueChanged(this.uiComboDataGridView1_ValueChanged);
             // 
-            // uiSymbolButton3
+            // uiStyleManager1
             // 
-            this.uiSymbolButton3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiSymbolButton3.Location = new System.Drawing.Point(276, 204);
-            this.uiSymbolButton3.MinimumSize = new System.Drawing.Size(1, 1);
-            this.uiSymbolButton3.Name = "uiSymbolButton3";
-            this.uiSymbolButton3.Size = new System.Drawing.Size(32, 31);
-            this.uiSymbolButton3.Style = Sunny.UI.UIStyle.Custom;
-            this.uiSymbolButton3.Symbol = 261550;
-            this.uiSymbolButton3.TabIndex = 41;
-            this.uiSymbolButton3.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
-            this.uiSymbolButton3.Click += new System.EventHandler(this.uiSymbolButton3_Click);
+            this.uiStyleManager1.DPIScale = true;
             // 
             // Add_server
             // 
@@ -816,5 +822,6 @@
         private Sunny.UI.UICheckBox uiCheckBox2;
         private Sunny.UI.UIComboDataGridView uiComboDataGridView1;
         private Sunny.UI.UISymbolButton uiSymbolButton3;
+        private Sunny.UI.UIStyleManager uiStyleManager1;
     }
 }

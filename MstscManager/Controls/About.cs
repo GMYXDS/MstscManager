@@ -3,7 +3,7 @@ using MstscManager.Utils;
 
 namespace MstscManager.Controls {
     public partial class About : UIPage {
-        string now_version = "1.1";
+        string now_version = "1.2";
         string update_url = "";
         public About() {
             InitializeComponent();
@@ -15,10 +15,14 @@ namespace MstscManager.Controls {
 
         public async void check_update() {
             //to do 请求服务器
-            using var client = new HttpClient();
-            client.Timeout = TimeSpan.FromSeconds(5);
-            var url = "https://gmyxds.fun/soft/mstscmanager/update.html";
-            var result = await client.GetStringAsync(url);
+            string result = "";
+            try {
+                using var client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(5);
+                var url = "https://mss.gmyxds.fun/soft/mstscmanager/update.html";
+                result = await client.GetStringAsync(url);
+            } catch (Exception) {}
+            if (result == "") return;
             //Console.WriteLine(result);
             string [] arr = result.Split("-");
             string new_version = arr[0];

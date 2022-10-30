@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -46,6 +47,7 @@
             this.password = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mark_text = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.uiStyleManager1 = new Sunny.UI.UIStyleManager(this.components);
             this.uiPanel1.SuspendLayout();
             this.uiPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiDataGridView1)).BeginInit();
@@ -312,6 +314,10 @@
             this.id.Name = "id";
             this.id.ReadOnly = true;
             // 
+            // uiStyleManager1
+            // 
+            this.uiStyleManager1.DPIScale = true;
+            // 
             // user
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -349,5 +355,6 @@
         private DataGridViewTextBoxColumn password;
         private DataGridViewTextBoxColumn mark_text;
         private DataGridViewTextBoxColumn id;
+        private Sunny.UI.UIStyleManager uiStyleManager1;
     }
 }

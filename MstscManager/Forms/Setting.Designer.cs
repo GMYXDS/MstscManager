@@ -23,7 +23,9 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Setting));
+            this.uiStyleManager1 = new Sunny.UI.UIStyleManager(this.components);
             this.SuspendLayout();
             // 
             // Aside
@@ -31,6 +33,10 @@
             this.Aside.LineColor = System.Drawing.Color.White;
             this.Aside.Location = new System.Drawing.Point(1, 35);
             this.Aside.Size = new System.Drawing.Size(138, 410);
+            // 
+            // uiStyleManager1
+            // 
+            this.uiStyleManager1.DPIScale = true;
             // 
             // Setting
             // 
@@ -49,5 +55,7 @@
         }
 
         #endregion
+
+        private Sunny.UI.UIStyleManager uiStyleManager1;
     }
 }

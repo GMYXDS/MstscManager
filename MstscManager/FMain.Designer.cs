@@ -83,6 +83,7 @@
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.connect_setting = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.uiToolTip1 = new Sunny.UI.UIToolTip(this.components);
+            this.uiStyleManager1 = new Sunny.UI.UIStyleManager(this.components);
             this.uiContextMenuStrip1.SuspendLayout();
             this.uiPanel3.SuspendLayout();
             this.uiPanel6.SuspendLayout();
@@ -852,6 +853,10 @@
             this.uiToolTip1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
             this.uiToolTip1.OwnerDraw = true;
             // 
+            // uiStyleManager1
+            // 
+            this.uiStyleManager1.DPIScale = true;
+            // 
             // FMain
             // 
             this.AllowDrop = true;
@@ -943,5 +948,6 @@
         private DataGridViewTextBoxColumn connect_setting;
         private Sunny.UI.UIToolTip uiToolTip1;
         private Sunny.UI.UISymbolButton uiSymbolButton1;
+        private Sunny.UI.UIStyleManager uiStyleManager1;
     }
 }

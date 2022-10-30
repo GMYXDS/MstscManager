@@ -1,4 +1,7 @@
-# MstscManager
+<p align="center">
+  <img alt="MSTSCManager Logo" src="images/remote-desktop-512.png" width="100px" />
+  <h1 align="center">MstscManager</h1>
+</p>
 
 ## 项目介绍
 
