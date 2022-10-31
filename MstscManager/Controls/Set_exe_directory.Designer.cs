@@ -46,6 +46,12 @@
             this.uiLabel7 = new Sunny.UI.UILabel();
             this.uiLabel8 = new Sunny.UI.UILabel();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.uiButton8 = new Sunny.UI.UIButton();
+            this.uiTextBox8 = new Sunny.UI.UITextBox();
+            this.uiLabel9 = new Sunny.UI.UILabel();
+            this.uiButton9 = new Sunny.UI.UIButton();
+            this.uiTextBox9 = new Sunny.UI.UITextBox();
+            this.uiLabel10 = new Sunny.UI.UILabel();
             this.SuspendLayout();
             // 
             // uiLabel1
@@ -321,10 +327,90 @@
             this.uiLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabel8.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
+            // uiButton8
+            // 
+            this.uiButton8.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiButton8.Location = new System.Drawing.Point(367, 261);
+            this.uiButton8.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiButton8.Name = "uiButton8";
+            this.uiButton8.Size = new System.Drawing.Size(45, 29);
+            this.uiButton8.TabIndex = 24;
+            this.uiButton8.Text = "选择";
+            this.uiButton8.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiButton8.Click += new System.EventHandler(this.uiButton8_Click);
+            // 
+            // uiTextBox8
+            // 
+            this.uiTextBox8.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiTextBox8.Location = new System.Drawing.Point(124, 261);
+            this.uiTextBox8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiTextBox8.MinimumSize = new System.Drawing.Size(1, 16);
+            this.uiTextBox8.Name = "uiTextBox8";
+            this.uiTextBox8.ShowText = false;
+            this.uiTextBox8.Size = new System.Drawing.Size(236, 29);
+            this.uiTextBox8.TabIndex = 23;
+            this.uiTextBox8.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiTextBox8.Watermark = "";
+            this.uiTextBox8.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // uiLabel9
+            // 
+            this.uiLabel9.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiLabel9.Location = new System.Drawing.Point(-35, 261);
+            this.uiLabel9.Name = "uiLabel9";
+            this.uiLabel9.Size = new System.Drawing.Size(163, 29);
+            this.uiLabel9.TabIndex = 22;
+            this.uiLabel9.Text = "Mobaxterm路径：";
+            this.uiLabel9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.uiLabel9.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // uiButton9
+            // 
+            this.uiButton9.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiButton9.Location = new System.Drawing.Point(367, 295);
+            this.uiButton9.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiButton9.Name = "uiButton9";
+            this.uiButton9.Size = new System.Drawing.Size(45, 29);
+            this.uiButton9.TabIndex = 27;
+            this.uiButton9.Text = "选择";
+            this.uiButton9.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiButton9.Click += new System.EventHandler(this.uiButton9_Click);
+            // 
+            // uiTextBox9
+            // 
+            this.uiTextBox9.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiTextBox9.Location = new System.Drawing.Point(124, 295);
+            this.uiTextBox9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiTextBox9.MinimumSize = new System.Drawing.Size(1, 16);
+            this.uiTextBox9.Name = "uiTextBox9";
+            this.uiTextBox9.ShowText = false;
+            this.uiTextBox9.Size = new System.Drawing.Size(236, 29);
+            this.uiTextBox9.TabIndex = 26;
+            this.uiTextBox9.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiTextBox9.Watermark = "";
+            this.uiTextBox9.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // uiLabel10
+            // 
+            this.uiLabel10.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiLabel10.Location = new System.Drawing.Point(-35, 295);
+            this.uiLabel10.Name = "uiLabel10";
+            this.uiLabel10.Size = new System.Drawing.Size(163, 29);
+            this.uiLabel10.TabIndex = 25;
+            this.uiLabel10.Text = "Todesk路径：";
+            this.uiLabel10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.uiLabel10.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
             // Set_exe_directory
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(424, 410);
+            this.Controls.Add(this.uiButton9);
+            this.Controls.Add(this.uiTextBox9);
+            this.Controls.Add(this.uiLabel10);
+            this.Controls.Add(this.uiButton8);
+            this.Controls.Add(this.uiTextBox8);
+            this.Controls.Add(this.uiLabel9);
             this.Controls.Add(this.uiLabel8);
             this.Controls.Add(this.uiButton7);
             this.Controls.Add(this.uiTextBox7);
@@ -378,5 +464,11 @@
         private Sunny.UI.UILabel uiLabel7;
         private Sunny.UI.UILabel uiLabel8;
         private ColorDialog colorDialog1;
+        private Sunny.UI.UIButton uiButton8;
+        private Sunny.UI.UITextBox uiTextBox8;
+        private Sunny.UI.UILabel uiLabel9;
+        private Sunny.UI.UIButton uiButton9;
+        private Sunny.UI.UITextBox uiTextBox9;
+        private Sunny.UI.UILabel uiLabel10;
     }
 }

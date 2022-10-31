@@ -41,5 +41,13 @@ namespace MstscManager.Controls {
                 common_tools.RunApp3("cmd.exe", "/C start " + update_url);
             }
         }
+
+        private void uiLinkLabel1_Click(object sender, EventArgs e) {
+            common_tools.RunApp3("cmd.exe", "/C start https://github.com/GMYXDS/MstscManager");
+        }
+
+        private void uiLinkLabel2_Click(object sender, EventArgs e) {
+            common_tools.RunApp3("cmd.exe", "/C start https://support.qq.com/product/451575");
+        }
     }
 }

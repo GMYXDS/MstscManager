@@ -183,6 +183,16 @@ namespace MstscManager {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        public static System.Drawing.Bitmap Todesk_logo {
+            get {
+                object obj = ResourceManager.GetObject("Todesk_logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         public static System.Drawing.Bitmap vnc__Copy_ {
             get {
                 object obj = ResourceManager.GetObject("vnc__Copy_", resourceCulture);
@@ -236,6 +246,16 @@ namespace MstscManager {
         public static System.Drawing.Bitmap xshell__Copy_ {
             get {
                 object obj = ResourceManager.GetObject("xshell__Copy_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        public static System.Drawing.Bitmap xterm_logo {
+            get {
+                object obj = ResourceManager.GetObject("xterm_logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

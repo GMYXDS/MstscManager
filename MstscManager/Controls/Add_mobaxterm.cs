@@ -2,28 +2,36 @@
 using MstscManager.Utils;
 using Newtonsoft.Json.Linq;
 using Sunny.UI;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace MstscManager.Controls {
-    public partial class Add_puty : UIPage {
-        public Add_puty() {
+    public partial class Add_mobaxterm : UIPage {
+        public Add_mobaxterm() {
             InitializeComponent();
-        }
-
-        private void uiRadioButton2_Click(object sender, EventArgs e) {
-            Add_server top_form = this.Parent.Parent.Parent.Parent as Add_server;
-            top_form.set_port(0);
         }
 
         private void uiRadioButton1_Click(object sender, EventArgs e) {
             Add_server top_form = this.Parent.Parent.Parent.Parent as Add_server;
             top_form.set_port(22);
         }
+
+        private void uiRadioButton2_Click(object sender, EventArgs e) {
+            Add_server top_form = this.Parent.Parent.Parent.Parent as Add_server;
+            top_form.set_port(0);
+        }
         public Dictionary<string, string> get_config() {
             Dictionary<string, string> config = new Dictionary<string, string>();
             if (uiRadioButton1.Checked) config.Add("sec_connect_mode", "ssh");
             if (uiRadioButton2.Checked) config.Add("sec_connect_mode", "telnet");
-            if(uiCheckBox1.Checked)config.Add("is_ssh_rsa", "1");else config.Add("is_ssh_rsa", "0");
+            if (uiCheckBox1.Checked) config.Add("is_ssh_rsa", "1"); else config.Add("is_ssh_rsa", "0");
             config.Add("ssh_rsa_path", uiTextBox1.Text);
             return config;
         }
@@ -41,15 +49,13 @@ namespace MstscManager.Controls {
             }
             uiTextBox1.Text = csobj["ssh_rsa_path"].ToString();
         }
-        private void Add_puty_ReceiveParams(object sender, UIPageParamsArgs e) {
+        private void Add_mobaxterm_ReceiveParams(object sender, UIPageParamsArgs e) {
             JObject csobj = e.Value as JObject;
             set_config(csobj);
         }
-
         private void uiLinkLabel2_Click(object sender, EventArgs e) {
-            common_tools.RunApp3("cmd.exe", "/C start "+uiLinkLabel2.Text.ToString());
+            common_tools.RunApp3("cmd.exe", "/C start " + uiLinkLabel2.Text.ToString());
         }
-
         private void uiCheckBox1_CheckedChanged(object sender, EventArgs e) {
             if ((sender as UICheckBox).Checked) {
                 uiRadioButton1.Checked = true;
@@ -79,5 +85,4 @@ namespace MstscManager.Controls {
             uiTextBox1.Text = path;
         }
     }
-
 }

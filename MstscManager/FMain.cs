@@ -35,18 +35,22 @@ namespace MstscManager {
             "Radmin-完全控制","Radmin-仅限查看","Radmin-telnet","Radmin-文件传送","Radmin-关机","Radmin-聊天","Radmin-语音聊天","Radmin-传送信息","Radmin-自定义",
             "VNC-tightvnc","VNC-realvnc","VNC-ultravnc","VNC-自定义",
             "Winscp-sftp","Winscp-scp","Winscp-ftp","Winscp-http","Winscp-https","Winscp-自定义",
-            "SecureCrt-ssh1","SecureCrt-ssh2","SecureCrt-telnet","SecureCrt-自定义"
+            "SecureCrt-ssh1","SecureCrt-ssh2","SecureCrt-telnet","SecureCrt-自定义",
+            "Mobaxterm-ssh","Mobaxterm-telnet","Mobaxterm-自定义",
+            "Todesk","Todesk-自定义",
         };
         List<string> allow_types = new List<string> {
-                    "RDP",
-                    "Putty-ssh","Putty-telnet",
-                    "Xshell-ssh","Xshell-telnet","Xshell-sftp",
-                    "Xftp-sftp","Xshell-ftp",
-                    "Radmin-完全控制","Radmin-仅限查看","Radmin-telnet","Radmin-文件传送","Radmin-关机","Radmin-聊天","Radmin-语音聊天","Radmin-传送信息",
-                    "VNC-tightvnc","VNC-realvnc","VNC-ultravnc",
-                    "Winscp-sftp","Winscp-scp","Winscp-ftp",
-                    "SecureCrt-ssh1","SecureCrt-ssh2","SecureCrt-telnet"
-                };
+            "RDP",
+            "Putty-ssh","Putty-telnet",
+            "Xshell-ssh","Xshell-telnet","Xshell-sftp",
+            "Xftp-sftp","Xshell-ftp",
+            "Radmin-完全控制","Radmin-仅限查看","Radmin-telnet","Radmin-文件传送","Radmin-关机","Radmin-聊天","Radmin-语音聊天","Radmin-传送信息",
+            "VNC-tightvnc","VNC-realvnc","VNC-ultravnc",
+            "Winscp-sftp","Winscp-scp","Winscp-ftp",
+            "SecureCrt-ssh1","SecureCrt-ssh2","SecureCrt-telnet",
+            "Mobaxterm-ssh","Mobaxterm-telnet",
+            "Todesk",
+        };
         string current_group_id = "-1";
         string save_width = "";
         string save_height = "";
@@ -443,7 +447,7 @@ namespace MstscManager {
                 "服务器名称,分类名称,连接类型,IP,端口,用户名,密码,到期时间,服务器备注,自定义规则\n" +
                 "10个数据，中间用英文逗号分开，没有的数据留空，一行一条数据\n" +
                 "其中连接类型只能是下面列表里面的之一,区分大小写：\n" +
-                "RDP, Putty-ssh,Putty-telnet, Xshell-ssh,Xshell-telnet,Xshell-sftp, Xftp-sftp,Xshell-ftp, Radmin-完全控制,Radmin-仅限查看,Radmin-telnet,Radmin-文件传送,Radmin-关机,Radmin-聊天,Radmin-语音聊天,Radmin-传送信息, VNC-tightvnc,VNC-realvnc,VNC-ultravnc, Winscp-sftp,Winscp-scp,Winscp-ftp, SecureCrt-ssh1,SecureCrt-ssh2,SecureCrt-telnet\n" +
+                "RDP, Putty-ssh,Putty-telnet, Xshell-ssh,Xshell-telnet,Xshell-sftp, Xftp-sftp,Xshell-ftp, Radmin-完全控制,Radmin-仅限查看,Radmin-telnet,Radmin-文件传送,Radmin-关机,Radmin-聊天,Radmin-语音聊天,Radmin-传送信息, VNC-tightvnc,VNC-realvnc,VNC-ultravnc, Winscp-sftp,Winscp-scp,Winscp-ftp, SecureCrt-ssh1,SecureCrt-ssh2,SecureCrt-telnet，Mobaxterm-ssh，Mobaxterm-telnet，Todesk\n" +
                 "不符合格式的数据将直接忽略，可以使用导出的模板进行编辑。";
             if (ShowAskDialog(tip_msg)) {
                 //ShowSuccessTip("您点击了确定按钮");
@@ -692,7 +696,7 @@ namespace MstscManager {
             if (connect_type.IndexOf("RDP") != -1) {
                 connect_setting = "{ \"audiocapturemode\": \"0\", \"audiocapturemode_name\": \"不录制\", \"audiomode\": \"0\", \"audiomode_name\": \"在此计算机上播放\", \"autoreconnection\": \"1\", \"camerastoredirect\": \" \", \"compression\": \"1\", \"connect_setting\": \"\", \"connect_string\": \"\", \"connect_type\": \"" + connect_type + "\", \"disable_wallpaper\": \"0\", \"displayconnectionbar\": \"1\", \"drivestoredirect\": \" \", \"end_date\": \""+end_date+"\", \"group_id\": \""+ group_id + "\", \"group_name\": \"" + group_name + "\", \"ip\": \"" + ip + "\", \"keyboardhook\": \"2\", \"keyboardhook_name\": \"仅在全屏显示时\", \"mark_text\": \""+ mark_text + "\", \"p_admin_mode\": \"1\", \"p_prompt\": \"0\", \"port\": \"" + port + "\", \"redirectclipboard\": \"1\", \"redirectcomports\": \"0\", \"redirectposdevices\": \"0\", \"redirectprinters\": \"0\", \"redirectsmartcards\": \"0\", \"screen_height\": \"768\", \"screen_mode\": \"2\", \"screen_mode_name\": \"全屏\", \"screen_width\": \"1024\", \"server_name\": \""+ server_name + "\", \"session_bpp\": \"32\", \"use_multimon\": \"0\", \"user_id\": \"-1\", \"user_name\": \"" + user_name + "\", \"user_pass\": \"" + user_pass + "\" }";
             } else if (connect_type.IndexOf("Putty") != -1) {
-                connect_setting = "{ \"connect_setting\": \"\", \"connect_string\": \"\", \"connect_type\": \"" + connect_type + "\", \"end_date\": \""+end_date+ "\", \"group_id\": \""+ group_id + "\", \"group_name\": \"" + group_name + "\", \"ip\": \"" + ip + "\", \"mark_text\": \""+ mark_text + "\", \"port\": \"" + port + "\", \"sec_connect_mode\": \"" + connect_type.Split("-")[1] + "\", \"server_name\": \""+ server_name + "\", \"user_id\": \"-1\", \"user_name\": \"" + user_name + "\", \"user_pass\": \"" + user_pass + "\" }";
+                connect_setting = "{ \"connect_setting\": \"\", \"connect_string\": \"\", \"connect_type\": \"" + connect_type + "\", \"end_date\": \""+end_date+ "\", \"group_id\": \""+ group_id + "\", \"group_name\": \"" + group_name + "\", \"ip\": \"" + ip + "\", \"mark_text\": \""+ mark_text + "\", \"port\": \"" + port + "\", \"sec_connect_mode\": \"" + connect_type.Split("-")[1] + "\", \"server_name\": \""+ server_name + "\", \"user_id\": \"-1\", \"user_name\": \"" + user_name + "\", \"user_pass\": \"" + user_pass + "\",\"is_ssh_rsa\": \"0\",\"ssh_rsa_path\": \"\" }";
             } else if (connect_type.IndexOf("Xshell") != -1) {
                 connect_setting = "{ \"connect_setting\": \"\", \"connect_string\": \"\", \"connect_type\": \"" + connect_type + "\", \"end_date\": \""+end_date+ "\", \"group_id\": \""+ group_id + "\", \"group_name\": \"" + group_name + "\", \"ip\": \"" + ip + "\", \"mark_text\": \""+ mark_text + "\", \"port\": \"" + port + "\", \"sec_connect_mode\": \"" + connect_type.Split("-")[1] + "\", \"server_name\": \""+ server_name + "\", \"user_id\": \"-1\", \"user_name\": \"" + user_name + "\", \"user_pass\": \"" + user_pass + "\" }";
             } else if (connect_type.IndexOf("Xftp") != -1) {
@@ -705,6 +709,10 @@ namespace MstscManager {
                 connect_setting = "{ \"connect_setting\": \"\", \"connect_string\": \"\", \"connect_type\": \"" + connect_type + "\", \"dav_address\": \"\", \"end_date\": \""+end_date+ "\", \"group_id\": \""+ group_id + "\", \"group_name\": \"" + group_name + "\", \"ip\": \"" + ip + "\", \"mark_text\": \""+ mark_text + "\", \"port\": \"" + port + "\", \"sec_connect_mode\": \"" + connect_type.Split("-")[1] + "\", \"server_name\": \""+ server_name + "\", \"user_id\": \"-1\", \"user_name\": \"" + user_name + "\", \"user_pass\": \"" + user_pass + "\", }";
             } else if (connect_type.IndexOf("SecureCrt") != -1) {
                 connect_setting = "{ \"connect_setting\": \"\", \"connect_string\": \"\", \"connect_type\": \"" + connect_type + "\", \"end_date\": \""+end_date+ "\", \"group_id\": \""+ group_id + "\", \"group_name\": \"" + group_name + "\", \"ip\": \"" + ip + "\", \"mark_text\": \""+ mark_text + "\", \"port\": \"" + port + "\", \"sec_connect_mode\": \"" + connect_type.Split("-")[1] + "\", \"server_name\": \""+ server_name + "\", \"user_id\": \"-1\", \"user_name\": \"" + user_name + "\", \"user_pass\": \"" + user_pass + "\", }";
+            } else if (connect_type.IndexOf("Mobaxterm") != -1) {
+                connect_setting = "{ \"connect_setting\": \"\", \"connect_string\": \"\", \"connect_type\": \"" + connect_type + "\", \"end_date\": \"" + end_date + "\", \"group_id\": \"" + group_id + "\", \"group_name\": \"" + group_name + "\", \"ip\": \"" + ip + "\", \"mark_text\": \"" + mark_text + "\", \"port\": \"" + port + "\", \"sec_connect_mode\": \"" + connect_type.Split("-")[1] + "\", \"server_name\": \"" + server_name + "\", \"user_id\": \"-1\", \"user_name\": \"" + user_name + "\", \"user_pass\": \"" + user_pass + "\" ,\"is_ssh_rsa\": \"0\",\"ssh_rsa_path\": \"\"}";
+            } else if (connect_type.IndexOf("Todesk") != -1) {
+                connect_setting = "{ \"connect_setting\": \"\", \"connect_string\": \"\", \"connect_type\": \"" + connect_type + "\", \"end_date\": \"" + end_date + "\", \"group_id\": \"" + group_id + "\", \"group_name\": \"" + group_name + "\", \"ip\": \"" + ip + "\", \"mark_text\": \"" + mark_text + "\", \"port\": \"" + port + "\", \"sec_connect_mode\": \"\", \"server_name\": \"" + server_name + "\", \"user_id\": \"-1\", \"user_name\": \"" + user_name + "\", \"user_pass\": \"" + user_pass + "\" }";
             }
             //Console.WriteLine(connect_setting);
             return connect_setting;
@@ -752,7 +760,7 @@ namespace MstscManager {
             uiTextBox6.Text = "";
         }
         //连接服务器real
-        private void connect_serer(bool is_temp = false,string cs_d = "") {
+        private void connect_serer(bool is_temp = false, string cs_d = "") {
             string connect_setting = "";
             if (is_temp) connect_setting = cs_d;
             else connect_setting = uiDataGridView1.SelectedRows[0].Cells[7].Value.ToString();
@@ -761,8 +769,8 @@ namespace MstscManager {
             //补全userid的密码
             string user_id = csobj["user_id"].ToString();
             if (user_id != "-1") {
-                DbDataReader reader =  DbSqlHelper.ExecuteReader("select * from User_setting where id = ?", user_id);
-                if(reader.Read()) {
+                DbDataReader reader = DbSqlHelper.ExecuteReader("select * from User_setting where id = ?", user_id);
+                if (reader.Read()) {
                     csobj["user_name"] = reader["user_name"].ToString();
                     csobj["user_pass"] = reader["user_pass"].ToString();
                 } else {
@@ -772,7 +780,7 @@ namespace MstscManager {
             }
             //替换自定义生成字符串
             string user_connect_string = csobj["connect_string"].ToString().Trim();
-            bool is_user_connect_string = user_connect_string == ""?false:true;
+            bool is_user_connect_string = user_connect_string == "" ? false : true;
             if (is_user_connect_string) {
                 user_connect_string = user_connect_string.Replace("{username}", csobj["user_name"].ToString());
                 user_connect_string = user_connect_string.Replace("{password}", csobj["user_pass"].ToString());
@@ -783,15 +791,16 @@ namespace MstscManager {
             if (connect_type.IndexOf("RDP") != -1) {
                 //判断自定义
                 if (is_user_connect_string) {
-                    common_tools.RunApp2("mstsc.exe", " "+ user_connect_string);
+                    common_tools.RunApp2("mstsc.exe", " " + user_connect_string);
                     return;
                 }
                 //检查是否设置对应exe
                 //参数写入文件
-                string path = System.Environment.GetFolderPath(SpecialFolder.LocalApplicationData)+ "\\Temp\\MstscManager.rdp";
+                //string path = System.Environment.GetFolderPath(SpecialFolder.LocalApplicationData) + "\\Temp\\MstscManager.rdp";
+                string path = "data\\MstscManager_temp.rdp";
                 //Console.WriteLine(path);
                 if (File.Exists(path)) { File.Delete(path); };
-                File.WriteAllLines(path, new string[] { 
+                File.WriteAllLines(path, new string[] {
                     "screen mode id:i:"+csobj["screen_mode"].ToString(),
                     "use multimon:i:"+csobj["use_multimon"].ToString(),
                     "desktopwidth:i:"+csobj["screen_width"].ToString(),
@@ -865,11 +874,18 @@ namespace MstscManager {
                 //根据二次类型生成对应的字符串
                 string connect_string = "";
                 string sec_connect_mode = csobj["sec_connect_mode"].ToString().ToLower();
-                if (sec_connect_mode =="ssh") {
-                    if(csobj["user_name"].ToString().Trim()=="") { ShowInfoTip($"{csobj["connect_type"].ToString()} 用户名不能为空！"); return; }
-                    //putty.exe -ssh -l 用户名 -pw 密码 -P 端口 服务器IP
-                    connect_string += $" -ssh -l {csobj["user_name"].ToString()} -pw {csobj["user_pass"].ToString()} -P {csobj["port"].ToString()} {csobj["ip"].ToString()}";
-                } else if (sec_connect_mode == "telnet") {
+                if (sec_connect_mode == "ssh") {
+                    if (csobj["user_name"].ToString().Trim() == "") { ShowInfoTip($"{csobj["connect_type"].ToString()} 用户名不能为空！"); return; }
+                    //密钥连接
+                    if(csobj["is_ssh_rsa"].ToString().Trim() == "1") {
+                        //putty.exe -ssh -l 用户名 -P 端口 -i rsa_path 服务器IP
+                        connect_string += $" -ssh -l {csobj["user_name"].ToString()} -P {csobj["port"].ToString()}  -i {csobj["ssh_rsa_path"]} {csobj["ip"].ToString()}";
+                    } else {
+                        //putty.exe -ssh -l 用户名 -pw 密码 -P 端口 服务器IP
+                        connect_string += $" -ssh -l {csobj["user_name"].ToString()} -pw {csobj["user_pass"].ToString()} -P {csobj["port"].ToString()} {csobj["ip"].ToString()}";
+                    }
+                } 
+                else if (sec_connect_mode == "telnet") {
                     //putty0.77.exe -telnet -P 20891 127.0.0.1
                     connect_string += $" -telnet -P {csobj["port"].ToString()} {csobj["ip"].ToString()}";
                 }
@@ -912,7 +928,7 @@ namespace MstscManager {
                 string sec_connect_mode = csobj["sec_connect_mode"].ToString().ToLower();
                 if (sec_connect_mode == "sftp") {
                     connect_string += $" -url sftp://{csobj["user_name"].ToString()}:{csobj["user_pass"].ToString()}@{csobj["ip"].ToString()}:{csobj["port"].ToString()}";
-                }else if (sec_connect_mode == "ftp") {
+                } else if (sec_connect_mode == "ftp") {
                     connect_string += $" -url ftp://{csobj["user_name"].ToString()}:{csobj["user_pass"].ToString()}@{csobj["ip"].ToString()}:{csobj["port"].ToString()}";
                 }
                 //Console.WriteLine(connect_string);
@@ -947,8 +963,8 @@ namespace MstscManager {
                     connect_string += $" /connect:{csobj["ip"].ToString()}:{csobj["port"].ToString()} /message";
                 }
                 //if (csobj["encrypt"].ToString()=="1") connect_string += " /encrypt";
-                if (csobj["fullscreen"].ToString()=="1") connect_string += " /fullscreen";
-                if (csobj["nofullkbcontrol"].ToString()=="1") connect_string += " /nofullkbcontrol";
+                if (csobj["fullscreen"].ToString() == "1") connect_string += " /fullscreen";
+                if (csobj["nofullkbcontrol"].ToString() == "1") connect_string += " /nofullkbcontrol";
 
                 connect_string += " /" + csobj["color_mode"];
                 connect_string += " /updates:" + csobj["updates"];
@@ -1036,6 +1052,43 @@ namespace MstscManager {
                     connect_string += $" /telnet {csobj["user_name"].ToString()}@{csobj["ip"].ToString()}";
                 }
                 //Console.WriteLine(connect_string);
+                common_tools.RunApp(exe_path, connect_string);
+            } 
+            else if (connect_type.IndexOf("Mobaxterm") != -1) {
+                //检查exe是否存在
+                string exe_path = check_exe_path("mobaxterm_exe_path");
+                if (exe_path == "") return;
+                //判断自定义
+                if (is_user_connect_string) { common_tools.RunApp(exe_path, " " + user_connect_string); return; }
+                //根据二次类型生成对应的字符串
+                string connect_string = "";
+                string sec_connect_mode = csobj["sec_connect_mode"].ToString().ToLower();
+                if (sec_connect_mode == "ssh") {
+                    if (csobj["user_name"].ToString().Trim() == "") { ShowInfoTip($"{csobj["connect_type"].ToString()} 用户名不能为空！"); return; }
+                    //密钥连接
+                    if (csobj["is_ssh_rsa"].ToString().Trim() == "1") {
+                        //MobaXterm.exe -newtab "ssh -i $ppk_path $Username@$host -p $port"
+                        connect_string += $" -newtab \"ssh -i {csobj["ssh_rsa_path"].ToString()} {csobj["user_name"].ToString()}@{csobj["ip"].ToString()} -p {csobj["port"].ToString()}\"";
+                    } else {
+                        //MobaXterm.exe -newtab "sshpass -p $password ssh $Username@$host -p $port"
+                        connect_string += $" -newtab \"sshpass -p {csobj["user_pass"].ToString()} ssh {csobj["user_name"].ToString()}@{csobj["ip"].ToString()} -p {csobj["port"].ToString()}\"";
+                    }
+                } else if (sec_connect_mode == "telnet") {
+                    //.\MobaXterm1_CHS1.exe -newtab "telnet -4 192.168.152.128 22"
+                    connect_string += $" -newtab \"telnet -4 {csobj["ip"].ToString()} {csobj["port"].ToString()} \"";
+                }
+                //Console.WriteLine(connect_string);
+                common_tools.RunApp(exe_path, connect_string);
+            } 
+            else if (connect_type.IndexOf("Todesk") != -1) {
+                //检查exe是否存在
+                string exe_path = check_exe_path("todesk_exe_path");
+                if (exe_path == "") return;
+                //判断自定义
+                if (is_user_connect_string) { common_tools.RunApp(exe_path, " " + user_connect_string); return; }
+                //根据二次类型生成对应的字符串
+                //.\ToDesk.exe -control -id 432160856 -passwd ipa2q65t
+                string connect_string = $" -control -id {csobj["ip"].ToString().Replace(" ","")} -passwd {csobj["user_pass"].ToString()}";
                 common_tools.RunApp(exe_path, connect_string);
             }
         }

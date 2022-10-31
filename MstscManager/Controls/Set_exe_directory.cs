@@ -19,6 +19,8 @@ namespace MstscManager.Controls {
                 else if(key == "vnc_exe_path") uiTextBox5.Text = reader["val"].ToString();
                 else if(key == "winscp_exe_path") uiTextBox6.Text = reader["val"].ToString();
                 else if(key == "securecrt_exe_path") uiTextBox7.Text = reader["val"].ToString();
+                else if(key == "mobaxterm_exe_path") uiTextBox8.Text = reader["val"].ToString();
+                else if(key == "todesk_exe_path") uiTextBox9.Text = reader["val"].ToString();
             }
             reader.Close();
         }
@@ -69,6 +71,14 @@ namespace MstscManager.Controls {
 
         private void uiButton7_Click(object sender, EventArgs e) {
             set_or_update_path("securecrt_exe_path", uiTextBox7);
+        }
+
+        private void uiButton8_Click(object sender, EventArgs e) {
+            set_or_update_path("mobaxterm_exe_path", uiTextBox8);
+        }
+
+        private void uiButton9_Click(object sender, EventArgs e) {
+            set_or_update_path("todesk_exe_path", uiTextBox9);
         }
     }
 }

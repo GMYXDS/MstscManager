@@ -26,6 +26,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Add_server));
             this.uiPanel1 = new Sunny.UI.UIPanel();
+            this.uiHeaderButton10 = new Sunny.UI.UIHeaderButton();
+            this.uiHeaderButton9 = new Sunny.UI.UIHeaderButton();
             this.uiHeaderButton8 = new Sunny.UI.UIHeaderButton();
             this.uiHeaderButton7 = new Sunny.UI.UIHeaderButton();
             this.uiHeaderButton6 = new Sunny.UI.UIHeaderButton();
@@ -75,6 +77,8 @@
             // 
             // uiPanel1
             // 
+            this.uiPanel1.Controls.Add(this.uiHeaderButton10);
+            this.uiPanel1.Controls.Add(this.uiHeaderButton9);
             this.uiPanel1.Controls.Add(this.uiHeaderButton8);
             this.uiPanel1.Controls.Add(this.uiHeaderButton7);
             this.uiPanel1.Controls.Add(this.uiHeaderButton6);
@@ -97,6 +101,49 @@
             this.uiPanel1.Text = "uiPanel1";
             this.uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
             this.uiPanel1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // uiHeaderButton10
+            // 
+            this.uiHeaderButton10.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
+            this.uiHeaderButton10.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiHeaderButton10.ForeColor = System.Drawing.Color.Black;
+            this.uiHeaderButton10.Image = global::MstscManager.Resources.Todesk_logo;
+            this.uiHeaderButton10.Location = new System.Drawing.Point(720, 2);
+            this.uiHeaderButton10.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiHeaderButton10.Name = "uiHeaderButton10";
+            this.uiHeaderButton10.Padding = new System.Windows.Forms.Padding(0, 8, 0, 3);
+            this.uiHeaderButton10.Radius = 0;
+            this.uiHeaderButton10.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.uiHeaderButton10.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
+            this.uiHeaderButton10.Size = new System.Drawing.Size(69, 88);
+            this.uiHeaderButton10.Style = Sunny.UI.UIStyle.Custom;
+            this.uiHeaderButton10.StyleCustomMode = true;
+            this.uiHeaderButton10.TabIndex = 10;
+            this.uiHeaderButton10.Text = "Todesk";
+            this.uiHeaderButton10.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiHeaderButton10.Click += new System.EventHandler(this.uiHeaderButton10_Click);
+            // 
+            // uiHeaderButton9
+            // 
+            this.uiHeaderButton9.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
+            this.uiHeaderButton9.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiHeaderButton9.ForeColor = System.Drawing.Color.Black;
+            this.uiHeaderButton9.Image = global::MstscManager.Resources.xterm_logo;
+            this.uiHeaderButton9.ImageTop = 10;
+            this.uiHeaderButton9.Location = new System.Drawing.Point(622, 4);
+            this.uiHeaderButton9.MinimumSize = new System.Drawing.Size(1, 1);
+            this.uiHeaderButton9.Name = "uiHeaderButton9";
+            this.uiHeaderButton9.Padding = new System.Windows.Forms.Padding(0, 8, 0, 3);
+            this.uiHeaderButton9.Radius = 0;
+            this.uiHeaderButton9.RadiusSides = Sunny.UI.UICornerRadiusSides.None;
+            this.uiHeaderButton9.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
+            this.uiHeaderButton9.Size = new System.Drawing.Size(100, 88);
+            this.uiHeaderButton9.Style = Sunny.UI.UIStyle.Custom;
+            this.uiHeaderButton9.StyleCustomMode = true;
+            this.uiHeaderButton9.TabIndex = 9;
+            this.uiHeaderButton9.Text = "MobaXterm";
+            this.uiHeaderButton9.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiHeaderButton9.Click += new System.EventHandler(this.uiHeaderButton9_Click);
             // 
             // uiHeaderButton8
             // 
@@ -823,5 +870,7 @@
         private Sunny.UI.UIComboDataGridView uiComboDataGridView1;
         private Sunny.UI.UISymbolButton uiSymbolButton3;
         private Sunny.UI.UIStyleManager uiStyleManager1;
+        private Sunny.UI.UIHeaderButton uiHeaderButton10;
+        private Sunny.UI.UIHeaderButton uiHeaderButton9;
     }
 }

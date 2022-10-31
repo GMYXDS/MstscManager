@@ -154,6 +154,9 @@
   <data name="terminal__Copy_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\terminal (Copy).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Todesk_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Todesk_logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="vnc__Copy_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\vnc (Copy).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -171,5 +174,8 @@
   </data>
   <data name="xshell__Copy_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\xshell (Copy).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="xterm_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\xterm_logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

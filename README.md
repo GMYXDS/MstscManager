@@ -7,7 +7,7 @@
 
 MSTSC远程管理器
 
-一个支持MSTSC，Putty，Xshell，Xftp，Radmin，VNC，Winscp，SecureCRT的远程管理器
+一个支持MSTSC，Putty，Xshell，Xftp，Radmin，VNC，Winscp，SecureCRT，MobaXterm，向日葵，Todesk的远程管理器
 
 ## 已支持的功能
 
@@ -102,11 +102,17 @@ MSTSC远程管理器
  "xfp路径/新建会话.xfp"
 ```
 
-
-
 - vnc的话，Realvnc 没有支持密码的命令行选项，需要自定义用配置文件连接
 
 - Tightvnc 不支持全屏和查看模式的命令行 需要自定义配置文件连接
+
+- SecureCrt 命令行指定密钥没用，不知道为什么
+
+- 所有的目录尽量不要放在有空格的目录里面
+
+- Xshell，Xftp命令行不支持私钥连接
+
+- 向日葵暂不支持命令行连接
 
 ## 如何编译
 

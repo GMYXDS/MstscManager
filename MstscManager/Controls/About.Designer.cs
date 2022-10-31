@@ -30,6 +30,8 @@
             this.uiLinkLabel1 = new Sunny.UI.UILinkLabel();
             this.uiLabel1 = new Sunny.UI.UILabel();
             this.uiLabel2 = new Sunny.UI.UILabel();
+            this.uiLabel3 = new Sunny.UI.UILabel();
+            this.uiLinkLabel2 = new Sunny.UI.UILinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -113,6 +115,7 @@
             this.uiLinkLabel1.Text = "https://github.com/GMYXDS/MstscManager ";
             this.uiLinkLabel1.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.uiLinkLabel1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiLinkLabel1.Click += new System.EventHandler(this.uiLinkLabel1_Click);
             // 
             // uiLabel1
             // 
@@ -139,12 +142,42 @@
             this.uiLabel2.Visible = false;
             this.uiLabel2.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
+            // uiLabel3
+            // 
+            this.uiLabel3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiLabel3.Location = new System.Drawing.Point(92, 264);
+            this.uiLabel3.Name = "uiLabel3";
+            this.uiLabel3.Size = new System.Drawing.Size(275, 31);
+            this.uiLabel3.Style = Sunny.UI.UIStyle.Custom;
+            this.uiLabel3.TabIndex = 9;
+            this.uiLabel3.Text = "意见反馈：";
+            this.uiLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.uiLabel3.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            // 
+            // uiLinkLabel2
+            // 
+            this.uiLinkLabel2.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(155)))), ((int)(((byte)(40)))));
+            this.uiLinkLabel2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiLinkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
+            this.uiLinkLabel2.Location = new System.Drawing.Point(168, 269);
+            this.uiLinkLabel2.Name = "uiLinkLabel2";
+            this.uiLinkLabel2.Size = new System.Drawing.Size(199, 43);
+            this.uiLinkLabel2.Style = Sunny.UI.UIStyle.Custom;
+            this.uiLinkLabel2.TabIndex = 10;
+            this.uiLinkLabel2.TabStop = true;
+            this.uiLinkLabel2.Text = "https://support.qq.com/product/451575";
+            this.uiLinkLabel2.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.uiLinkLabel2.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.uiLinkLabel2.Click += new System.EventHandler(this.uiLinkLabel2_Click);
+            // 
             // About
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(424, 410);
+            this.Controls.Add(this.uiLinkLabel2);
             this.Controls.Add(this.uiLinkLabel1);
+            this.Controls.Add(this.uiLabel3);
             this.Controls.Add(this.uiLabel2);
             this.Controls.Add(this.uiLabel1);
             this.Controls.Add(this.uiButton1);
@@ -168,5 +201,7 @@
         private Sunny.UI.UILinkLabel uiLinkLabel1;
         private Sunny.UI.UILabel uiLabel1;
         private Sunny.UI.UILabel uiLabel2;
+        private Sunny.UI.UILabel uiLabel3;
+        private Sunny.UI.UILinkLabel uiLinkLabel2;
     }
 }

@@ -110,6 +110,8 @@ namespace MstscManager.Forms {
             AddPage(new Add_vnc(), ++pageIndex);
             AddPage(new Add_winscp(), ++pageIndex);
             AddPage(new Add_securecrt(), ++pageIndex);
+            AddPage(new Add_mobaxterm(), ++pageIndex);
+            AddPage(new Add_todesk(), ++pageIndex);
             uiHeaderButton1.Selected = true;
             uiDatePicker1.Text = "";
 
@@ -208,6 +210,17 @@ namespace MstscManager.Forms {
             SelectPage(1008);
             set_port(22);
         }
+        //mobaxterm
+
+        private void uiHeaderButton9_Click(object sender, EventArgs e) {
+            SelectPage(1009);
+            set_port(22);
+        }
+        //todesk
+        private void uiHeaderButton10_Click(object sender, EventArgs e) {
+            SelectPage(1010);
+            set_port(0);
+        }
 
         private void Add_server_Load(object sender, EventArgs e) {
             //add_instance = this;
@@ -287,6 +300,11 @@ namespace MstscManager.Forms {
             } else if (index == 7) {
                 connect_type = "SecureCrt";
                 config_extra = (target as Add_securecrt).get_config();
+            } else if(index==8) {
+                connect_type = "Mobaxterm";
+                config_extra = (target as Add_mobaxterm).get_config();
+            } else if(index == 9) {
+                connect_type = "Todesk";
             }
             if (uiCheckBox1.Checked) {
                 config["connect_string"] = uiTextBox7.Text;
@@ -414,5 +432,6 @@ namespace MstscManager.Forms {
                 }
             }
         }
+
     }
 }
