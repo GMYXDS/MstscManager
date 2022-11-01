@@ -145,7 +145,6 @@ SunnyUI
 ## 联系作者
 
 - 程序由我个人独立开发，能力有限，难免出现一些Bug，欢迎大家积极反馈Bug和提出优化建议。
-- 邮箱：[gmyxds132@163.com](mailto:gmyxds132@163.com)
 - 对软件有建议或意见：[产品建议](https://support.qq.com/product/451575)
 
 ## 捐赠作者
