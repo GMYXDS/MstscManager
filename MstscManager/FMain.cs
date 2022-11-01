@@ -355,9 +355,9 @@ namespace MstscManager {
 
                 //创建一个节点对象，并初始化 
                 TreeNode tmp = new TreeNode(group_name, 0, 1);
-                //在TreeView组件中加入子节点 
-                uiTreeView1.SelectedNode.Nodes.Add(tmp);
-                uiTreeView1.SelectedNode = tmp;
+                ////在TreeView组件中加入子节点 
+                //uiTreeView1.SelectedNode.Nodes.Add(tmp);
+                //uiTreeView1.SelectedNode = tmp;
                 //uiTreeView1.ExpandAll();
 
                 DbSqlHelper.ExecuteNonQuery("insert into Group_setting (group_name,group_head_id) values (?,?)", group_name, head_group_id);
@@ -1168,7 +1168,8 @@ namespace MstscManager {
                     //密钥连接
                     if (csobj["is_ssh_rsa"].ToString().Trim() == "1") {
                         //MobaXterm.exe -newtab "ssh -i $ppk_path $Username@$host -p $port"
-                        connect_string += $" -newtab \"ssh -i {csobj["ssh_rsa_path"].ToString()} {csobj["user_name"].ToString()}@{csobj["ip"].ToString()} -p {csobj["port"].ToString()}\"";
+                        //Console.WriteLine(csobj["ssh_rsa_path"].ToString().Replace("\\", "/"));
+                        connect_string += $" -newtab \"ssh -i {csobj["ssh_rsa_path"].ToString().Replace("\\","/")} {csobj["user_name"].ToString()}@{csobj["ip"].ToString()} -p {csobj["port"].ToString()}\"";
                     } else {
                         //MobaXterm.exe -newtab "sshpass -p $password ssh $Username@$host -p $port"
                         connect_string += $" -newtab \"sshpass -p {csobj["user_pass"].ToString()} ssh {csobj["user_name"].ToString()}@{csobj["ip"].ToString()} -p {csobj["port"].ToString()}\"";
@@ -1189,11 +1190,12 @@ namespace MstscManager {
                 //根据二次类型生成对应的字符串
                 //.\ToDesk.exe -control -id 432160856 -passwd ipa2q65t
                 string connect_string = $" -control -id {csobj["ip"].ToString().Replace(" ","")} -passwd {csobj["user_pass"].ToString()}";
+                //Console.WriteLine(connect_string);
                 common_tools.RunApp(exe_path, connect_string);
             }
         }
         private string check_exe_path(string store_name) {
-            SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from Commom_setting where key = ?", store_name);
+            SqliteDataReader reader = DbSqlHelper.ExecuteReader2("select * from Commom_setting where key = ?", store_name);
             bool flag = reader.Read();
             if (!flag) {
                 ShowInfoTip("exe路径未设置，请到[设置]->[三方EXE位置]设置相关路径");

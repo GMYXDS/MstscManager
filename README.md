@@ -45,9 +45,9 @@ MSTSC远程管理器
 
 2）点击右侧release，找到对应的zip文件，下载后，使用里面的【MSTSC远程管理器.exe】主程序文件
 
-备注：`MSTSC远程管理器winx86.zip`,`MSTSC远程管理器winx64.zip`,`MSTSC远程管理器winnx86_withdotnet.zip`
+备注：`MSTSC_win_x86.zip`,`MSTSC_win_x64.zip`,`MSTSC_winn_x86_withdotnet6.zip`
 
-,`MSTSC远程管理器winx64_withdotnet.zip`，四个版本中前两个不带.NET环境，需要自行安装.NET6 Runtime环境，小白无脑选择后面2个就行。
+,`MSTSC_win_x64_with_dotnet6.zip`，四个版本中前两个不带.NET环境，需要自行安装.NET6 Runtime环境，小白无脑选择后面2个就行。
 
 ## 使用说明
 

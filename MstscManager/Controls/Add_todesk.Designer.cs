@@ -65,12 +65,12 @@
             this.uiLabel8.ForeColor = System.Drawing.Color.Gray;
             this.uiLabel8.Location = new System.Drawing.Point(29, 208);
             this.uiLabel8.Name = "uiLabel8";
-            this.uiLabel8.Size = new System.Drawing.Size(470, 62);
+            this.uiLabel8.Size = new System.Drawing.Size(470, 83);
             this.uiLabel8.Style = Sunny.UI.UIStyle.Custom;
             this.uiLabel8.StyleCustomMode = true;
             this.uiLabel8.TabIndex = 22;
             this.uiLabel8.Text = "备注：1.暂时仅支持ToDesk for Windows 4.0.0或更高版本\r\n           2.仅支持设备列表里已解锁设备发起控制\r\n        " +
-    "   3.添加远控前需要先在todesk里面进行首次连接\r\n\r\n";
+    "   3.添加远控前需要先在todesk里面进行首次连接\r\n           4.连接时todesk要处于打开状态\r\n\r\n";
             this.uiLabel8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.uiLabel8.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 

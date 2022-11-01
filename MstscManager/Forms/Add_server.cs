@@ -97,6 +97,14 @@ namespace MstscManager.Forms {
                 SelectPage(1008);
                 uiHeaderButton8.Selected = true;
                 SendParamToPage(1008, csobj);
+            } else if (connect_type.IndexOf("Mobaxterm") != -1) {
+                SelectPage(1009);
+                uiHeaderButton9.Selected = true;
+                SendParamToPage(1009, csobj);
+            } else if (connect_type.IndexOf("Todesk") != -1) {
+                SelectPage(10010);
+                uiHeaderButton10.Selected = true;
+                SendParamToPage(10010, csobj);
             }
         }
         public void init() {
@@ -211,7 +219,6 @@ namespace MstscManager.Forms {
             set_port(22);
         }
         //mobaxterm
-
         private void uiHeaderButton9_Click(object sender, EventArgs e) {
             SelectPage(1009);
             set_port(22);

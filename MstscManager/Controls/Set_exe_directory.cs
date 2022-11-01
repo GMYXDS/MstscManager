@@ -9,7 +9,7 @@ namespace MstscManager.Controls {
             init();
         }
         private void init() {
-            SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from Commom_setting");
+            SqliteDataReader reader = DbSqlHelper.ExecuteReader2("select * from Commom_setting");
             while (reader.Read()) {
                 string key = reader["key"].ToString();
                 if(key == "putty_exe_path") uiTextBox1.Text = reader["val"].ToString();
