@@ -13,6 +13,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System;
 using System.Data;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace MstscManager {
     public partial class FMain : UIForm {
@@ -61,20 +62,26 @@ namespace MstscManager {
             check();
         }
         //迁移到v1.2
-        private void move_to_1_2() {
-            string? check = DbInihelper.GetIniData(iniconfig_action, "is_ask_move_1_2", iniconfig_path);
-            if (check == "1") return;
-            //1.询问，选择数据库位置
-
-            //2.导入数据库
-
-            //3.清除注册表
-            RegistryKey rkey = Registry.CurrentUser;
-            rkey.CreateSubKey(@"SOFTWARE\MstscManager");
-            rkey.DeleteSubKey(@"SOFTWARE\MstscManager");
-            //4.存储询问标志
-            DbInihelper.SetIniData(iniconfig_action, "is_ask_move_1_2", "1", iniconfig_path);
-        }
+        //private void move_to_1_2() {
+        //    if (Share.now_version != "1.2") return;
+        //    string? check = DbInihelper.GetIniData(iniconfig_action, "is_ask_move_1_2", iniconfig_path);
+        //    if (check == "1") return;
+        //    //1.询问，选择数据库位置
+        //    if (ShowAskDialog("检测到首次打开v1.2是否自动导入v1.1数据！", false)) {
+        //        //2.导入数据库
+        //        string file_path = show_dialog_db();
+        //        if (file_path == "") return;
+        //    } else {
+        //        DbInihelper.SetIniData(iniconfig_action, "is_ask_move_1_2", "1", iniconfig_path);
+        //        return;
+        //    }
+        //    //3.清除注册表
+        //    //RegistryKey rkey = Registry.CurrentUser;
+        //    //rkey.CreateSubKey(@"SOFTWARE\MstscManager");
+        //    //rkey.DeleteSubKey(@"SOFTWARE\MstscManager");
+        //    //4.存储询问标志
+        //    DbInihelper.SetIniData(iniconfig_action, "is_ask_move_1_2", "1", iniconfig_path);
+        //}
 
         private void check() {
             //注册表拿到是否需要开启输入密码配置
@@ -175,7 +182,7 @@ namespace MstscManager {
                 //Stopwatch watch = new Stopwatch();
                 //watch.Start();
                 //DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
-                DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS Group_setting( ID integer PRIMARY KEY AUTOINCREMENT , group_name TEXT);");
+                DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS Group_setting( ID integer PRIMARY KEY AUTOINCREMENT , group_name TEXT,group_head_id TEXT);");
                 DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS Commom_setting( ID integer PRIMARY KEY AUTOINCREMENT , key TEXT, val TEXT);");
                 DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS User_setting( ID integer PRIMARY KEY AUTOINCREMENT , user_name TEXT, user_pass TEXT, mark_text TEXT);");
                 DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS Server_setting( ID integer PRIMARY KEY AUTOINCREMENT , server_name TEXT, group_id integer, connect_type TEXT, ip TEXT, port TEXT, user_name TEXT, user_pass TEXT, end_date TEXT,mark_text TEXT,user_id integer,connect_setting TEXT,connect_string TEXT);");
@@ -225,14 +232,28 @@ namespace MstscManager {
             this.uiTreeView1.Nodes.Add("all", "全部分类", 0, 1);
             this.uiComboBox2.Items.Add("全部分类");
             this.uiComboBox2.Text = "全部分类";
-
-            SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting");
+            //if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
+            //DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
+            SqliteDataReader reader = DbSqlHelper.ExecuteReader2("select * from Group_setting where group_head_id = -1");
             while (reader.Read()) {
                 string group_name = (string)reader["group_name"];
                 this.uiTreeView1.Nodes.Add(group_name, group_name, 0, 1);
                 uiComboBox2.Items.Add(group_name);
+                //添加子分类
+                TreeNode parent_node = this.uiTreeView1.Nodes[group_name];
+                //Console.WriteLine(parent_node.Text);
+                SqliteDataReader reader2 = DbSqlHelper.ExecuteReader2("select * from Group_setting where group_head_id = ?", Convert.ToInt32(reader["id"]));
+                if (reader2 == null) continue;
+                while (reader2.Read()) {
+                    string goup_name_sec = (string)reader2["group_name"];
+                    parent_node.Nodes.Add(goup_name_sec, goup_name_sec, 0, 1);
+                    uiComboBox2.Items.Add(goup_name_sec);
+                }
+                reader2.Close();
             }
             reader.Close();
+            //DbSqlHelper.common_transaction.Commit();
+            //DbSqlHelper.common_transaction = null;
         }
         public void init_server_table() {
             clear_old_info();
@@ -313,11 +334,76 @@ namespace MstscManager {
             Share.fm = this;
         }
         private void 添加分类ToolStripMenuItem_Click(object sender, EventArgs e) {
+            TreeNode parent_node = uiTreeView1.SelectedNode.Parent;
+            //如果父节点不为顶级节点，需要查询父节点id
+            int head_group_id = -1;
+            if (parent_node != null) {
+                SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?", parent_node.Text.ToString());
+                bool flag = reader.Read();
+                if (flag) {
+                    head_group_id = Convert.ToInt32(reader["id"]);
+                }
+                reader.Close();
+                if (head_group_id == -1) {
+                    ShowErrorTip("没有查询到该父级分组！");
+                    return;
+                }
+            }
             string group_name = "";
             if (this.InputStringDialog(ref group_name, true, "请输入分组名称：", false)) {
                 if (group_name == "") return;
-                DbSqlHelper.ExecuteNonQuery("insert into Group_setting (group_name) values (?)", group_name);
-                this.uiTreeView1.Nodes.Add(group_name, group_name, 0, 1);
+
+                //创建一个节点对象，并初始化 
+                TreeNode tmp = new TreeNode(group_name, 0, 1);
+                //在TreeView组件中加入子节点 
+                uiTreeView1.SelectedNode.Nodes.Add(tmp);
+                uiTreeView1.SelectedNode = tmp;
+                //uiTreeView1.ExpandAll();
+
+                DbSqlHelper.ExecuteNonQuery("insert into Group_setting (group_name,group_head_id) values (?,?)", group_name, head_group_id);
+                if(parent_node==null)
+                    uiTreeView1.Nodes.Add(group_name, group_name, 0, 1);
+                else 
+                    uiTreeView1.SelectedNode.Parent.Nodes.Add(tmp);
+                uiComboBox2.Items.Add(group_name);
+            }
+        }
+        private void 添加子分类ToolStripMenuItem_Click(object sender, EventArgs e) {
+            TreeNode parent_node = uiTreeView1.SelectedNode.Parent;
+            if (parent_node!= null) {
+                ShowInfoTip("暂只支持2级分类");
+                return;
+            }
+            string head_group_name = uiTreeView1.SelectedNode.Text.ToString();
+            if (head_group_name == "全部分类") {
+                ShowInfoTip("全部分类下不支持添加子分类");
+                return;
+            }
+            string group_name = "";
+            if (this.InputStringDialog(ref group_name, true, "请输入分组名称：", false)) {
+                if (group_name == "") return;
+                //拿到head节点，head节点id
+                SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?", head_group_name);
+                int head_group_id = -1;
+                bool flag = reader.Read();
+                if (flag) {
+                    head_group_id = Convert.ToInt32(reader["id"]);
+                }
+                reader.Close();
+                if (head_group_id == -1) {
+                    ShowErrorTip("没有查询到该分组！");
+                    return;
+                }
+
+                //创建一个节点对象，并初始化 
+                TreeNode tmp = new TreeNode(group_name, 0, 1);
+                //在TreeView组件中加入子节点 
+                uiTreeView1.SelectedNode.Nodes.Add(tmp);
+                uiTreeView1.SelectedNode = tmp;
+                //uiTreeView1.ExpandAll();
+
+                DbSqlHelper.ExecuteNonQuery("insert into Group_setting (group_name,group_head_id) values (?,?)", group_name, head_group_id);
+                //this.uiTreeView1.Nodes.Add(group_name, group_name, 0, 1);
                 this.uiComboBox2.Items.Add(group_name);
             }
         }
@@ -327,6 +413,10 @@ namespace MstscManager {
             //Console.WriteLine(select_name);
             if (select_name == "全部分类") {
                 UIMessageDialog.ShowMessageDialog("全部分类无需删除！", "提示", false, Style,false);
+                return;
+            }
+            if (uiTreeView1.SelectedNode.Nodes.Count != 0 ) {
+                ShowInfoTip("请先删除此节点中的子节点！");
                 return;
             }
             if (ShowAskDialog("确定要删除<"+select_name+">分类吗？",false)) {
@@ -398,6 +488,7 @@ namespace MstscManager {
             if (flag) { group_id = Convert.ToInt32(reader["id"]); current_group_id = reader["id"].ToString(); }
             reader.Close();
             if (group_id == -1) { ShowErrorTip("没有查询到该分组！"); return; }
+            if (uiTreeView1.SelectedNode.Nodes.Count != 0) uiTreeView1.SelectedNode.ExpandAll();
             Share.now_group_name = group_name;
             load_server_table("select * from Server_setting where group_id = ?", group_id);
         }
@@ -510,6 +601,15 @@ namespace MstscManager {
             //ofd.Multiselect = true;
             ofd.InitialDirectory = System.Environment.CurrentDirectory;
             ofd.Filter = "所有文件|*.csv|文本文件|*.txt|所有文件|*.*";
+            ofd.ShowDialog();
+            return ofd.FileName;
+        }
+        private string show_dialog_db() {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = "请选择对应的数据库文件";
+            //ofd.Multiselect = true;
+            ofd.InitialDirectory = System.Environment.CurrentDirectory;
+            ofd.Filter = "所有文件|*.db|所有文件|*.*";
             ofd.ShowDialog();
             return ofd.FileName;
         }
@@ -1156,6 +1256,7 @@ namespace MstscManager {
                 e.Cancel = true;
                 tool_tip_show_once = "1";
             } else {
+                if (File.Exists("data/MstscManager_temp.rdp")) File.Delete("data/MstscManager_temp.rdp");
                 return;
             }
         }
@@ -1246,5 +1347,7 @@ namespace MstscManager {
         internal void set_hide_behind(string status) {
             is_hide_behind = status;
         }
+
+
     }
 }

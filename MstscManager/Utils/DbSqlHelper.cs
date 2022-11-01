@@ -41,12 +41,29 @@ namespace MstscManager.Utils {
             }
             //}
         }
+        public static int ExecuteNonQuery2(string cmdText, params object[] p) {
+            //if (common_conn == null) common_conn = new SqliteConnection(ConnectionString);
+            using (SqliteConnection conn = new SqliteConnection(ConnectionString)) {
+                using (SqliteCommand command = new SqliteCommand()) {
+                PrepareCommand(command, conn, cmdText, p);
+                return command.ExecuteNonQuery();
+            }
+        }
+    }
         public static SqliteDataReader ExecuteReader(string cmdText, params object[] p) {
             if(common_conn==null) common_conn = new SqliteConnection(ConnectionString);
             SqliteCommand command = new SqliteCommand();
             PrepareCommand(command, common_conn, cmdText, p);
             return command.ExecuteReader(CommandBehavior.CloseConnection);
             
+        }
+        public static SqliteDataReader ExecuteReader2(string cmdText, params object[] p) {
+            //if (common_conn == null) common_conn = new SqliteConnection(ConnectionString);
+            SqliteConnection conn = new SqliteConnection(ConnectionString);
+            SqliteCommand command = new SqliteCommand();
+            PrepareCommand(command, conn, cmdText, p);
+            return command.ExecuteReader(CommandBehavior.CloseConnection);
+
         }
         //public static string ExecuteScalar(string cmdText, params object[] p) {
         //    using (SqliteConnection conn = new SqliteConnection(ConnectionString)) {

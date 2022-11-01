@@ -76,7 +76,7 @@ namespace MstscManager.Utils {
         }
         public static string md5(string str) {
             MD5 md5 = MD5.Create();
-            byte[] buffer = Encoding.Default.GetBytes(str);
+            byte[] buffer = Encoding.Default.GetBytes(str+"gmyxds");
             byte[] MD5Buffer = md5.ComputeHash(buffer);
             string strNew = "";
             for (int i = 0; i < MD5Buffer.Length; i++) {

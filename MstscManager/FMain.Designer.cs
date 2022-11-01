@@ -88,6 +88,7 @@
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.uiContextMenuStrip2 = new Sunny.UI.UIContextMenuStrip();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.添加子分类ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uiContextMenuStrip1.SuspendLayout();
             this.uiPanel3.SuspendLayout();
             this.uiPanel6.SuspendLayout();
@@ -127,32 +128,34 @@
             // 
             this.uiContextMenuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(249)))), ((int)(((byte)(255)))));
             this.uiContextMenuStrip1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.uiContextMenuStrip1.IsScaled = true;
             this.uiContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.添加分类ToolStripMenuItem,
+            this.添加子分类ToolStripMenuItem,
             this.重命名ToolStripMenuItem,
             this.删除分类ToolStripMenuItem});
             this.uiContextMenuStrip1.Name = "uiContextMenuStrip1";
-            this.uiContextMenuStrip1.Size = new System.Drawing.Size(161, 82);
+            this.uiContextMenuStrip1.Size = new System.Drawing.Size(181, 130);
             this.uiContextMenuStrip1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
             // 
             // 添加分类ToolStripMenuItem
             // 
             this.添加分类ToolStripMenuItem.Name = "添加分类ToolStripMenuItem";
-            this.添加分类ToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
+            this.添加分类ToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.添加分类ToolStripMenuItem.Text = "添加分类";
             this.添加分类ToolStripMenuItem.Click += new System.EventHandler(this.添加分类ToolStripMenuItem_Click);
             // 
             // 重命名ToolStripMenuItem
             // 
             this.重命名ToolStripMenuItem.Name = "重命名ToolStripMenuItem";
-            this.重命名ToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
+            this.重命名ToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.重命名ToolStripMenuItem.Text = "重命名分类";
             this.重命名ToolStripMenuItem.Click += new System.EventHandler(this.重命名ToolStripMenuItem_Click);
             // 
             // 删除分类ToolStripMenuItem
             // 
             this.删除分类ToolStripMenuItem.Name = "删除分类ToolStripMenuItem";
-            this.删除分类ToolStripMenuItem.Size = new System.Drawing.Size(160, 26);
+            this.删除分类ToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.删除分类ToolStripMenuItem.Text = "删除分类";
             this.删除分类ToolStripMenuItem.Click += new System.EventHandler(this.删除分类ToolStripMenuItem_Click);
             // 
@@ -903,6 +906,13 @@
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
+            // 添加子分类ToolStripMenuItem
+            // 
+            this.添加子分类ToolStripMenuItem.Name = "添加子分类ToolStripMenuItem";
+            this.添加子分类ToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.添加子分类ToolStripMenuItem.Text = "添加子分类";
+            this.添加子分类ToolStripMenuItem.Click += new System.EventHandler(this.添加子分类ToolStripMenuItem_Click);
+            // 
             // FMain
             // 
             this.AllowDrop = true;
@@ -1001,5 +1011,6 @@
         private Sunny.UI.UIContextMenuStrip uiContextMenuStrip2;
         private ToolStripMenuItem 退出ToolStripMenuItem;
         private Sunny.UI.UILabel uiLabel10;
+        private ToolStripMenuItem 添加子分类ToolStripMenuItem;
     }
 }
