@@ -87,15 +87,6 @@ namespace MstscManager {
             //注册表拿到是否需要开启输入密码配置
             //注册表拿密码
             //注册表拿sql位置
-            //RegistryKey rkey = Registry.CurrentUser;
-            //RegistryKey key = rkey.CreateSubKey(@"SOFTWARE\MstscManager");
-            //key = rkey.OpenSubKey(@"SOFTWARE\MstscManager", true);
-            //is_open_with_mm = key.GetValue("is_open_with_mm", "-1").ToString();
-            //string mstsc_pass_s = key.GetValue("mstsc_pass", "-1").ToString();
-            //string db_path_s = key.GetValue("db_path", "-1").ToString();
-            //string old_db_path_s = key.GetValue("old_db_path", "-1").ToString();
-            //save_height = key.GetValue("save_height", "").ToString();
-            //save_width = key.GetValue("save_width", "").ToString();
             //v1.2 改用iniconfig 
             Dictionary<string, string>? dict = DbInihelper.GetIniSection(iniconfig_action, iniconfig_path);
             if (dict == null) dict = new Dictionary<string, string>();
@@ -1243,13 +1234,7 @@ namespace MstscManager {
                 save_width = this.ClientSize.Width.ToString();
                 save_height = this.ClientSize.Height.ToString();
             }
-            //RegistryKey rkey = Registry.CurrentUser;
-            //RegistryKey key = rkey.CreateSubKey(@"SOFTWARE\MstscManager");
-            //key = rkey.OpenSubKey(@"SOFTWARE\MstscManager", true);
-            //key.SetValue("save_width", save_width);
-            //key.SetValue("save_height", save_height);
-            //key.Close();
-            //rkey.Close();
+
             DbInihelper.SetIniData(iniconfig_action, "save_width", save_width, iniconfig_path);
             DbInihelper.SetIniData(iniconfig_action, "save_height", save_height, iniconfig_path);
             if (is_hide_behind == "1") {

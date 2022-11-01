@@ -10,10 +10,7 @@ namespace MstscManager.Controls {
         }
 
         private void uiButton1_Click(object sender, EventArgs e) {
-            //RegistryKey rkey = Registry.CurrentUser;
-            //RegistryKey key = rkey.CreateSubKey(@"SOFTWARE\MstscManager");
-            //key = rkey.OpenSubKey(@"SOFTWARE\MstscManager",true);
-            //string password  = key.GetValue("mstsc_pass","").ToString();
+
             string? password = DbInihelper.GetIniData(Share.iniconfig_action, "mstsc_pass", Share.iniconfig_path);
             if (password == "" || password == null) { ShowErrorTip("密码为空不能修改");return; }
             string old_pass = uiTextBox1.Text;

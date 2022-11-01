@@ -10,22 +10,15 @@ namespace MstscManager.Controls {
         }
 
         private void uiCheckBox1_CheckedChanged(object sender, EventArgs e) {
-            //RegistryKey rkey = Registry.CurrentUser;
-            //RegistryKey key = rkey.CreateSubKey(@"SOFTWARE\MstscManager");
-            //key = rkey.OpenSubKey(@"SOFTWARE\MstscManager", true);
             if ((sender as UICheckBox).Checked) {
                 //to do 设置启动true;
-                //key.SetValue("is_open_with_mm", "1");
                 DbInihelper.SetIniData(Share.iniconfig_action, "is_open_with_mm", "1", Share.iniconfig_path);
                 Share.fm.set_mm_status("1");
             } else {
                 //to do 设置启动false;
-                //key.SetValue("is_open_with_mm", "0");
                 DbInihelper.SetIniData(Share.iniconfig_action, "is_open_with_mm", "0", Share.iniconfig_path);
                 Share.fm.set_mm_status("0");
             }
-            //key.Close();
-            //rkey.Close();
         }
 
         private void Common_setting_Load(object sender, EventArgs e) {
@@ -42,14 +35,6 @@ namespace MstscManager.Controls {
                 new_db_path = new_db_path.Replace(System.Environment.CurrentDirectory + "\\", "");
                 //File.Move(old_path, new_db_path);
                 File.Copy(old_path, new_db_path);
-                //common_tools.RunApp2("explorer.exe",  " "+ dir);
-                //common_tools.RunApp2("explorer.exe", " " + Path.GetDirectoryName(old_path));
-                //RegistryKey rkey = Registry.CurrentUser;
-                //RegistryKey key = rkey.CreateSubKey(@"SOFTWARE\MstscManager");
-                //key = rkey.OpenSubKey(@"SOFTWARE\MstscManager", true);
-                //key.SetValue("db_path", new_db_path);
-                //key.SetValue("old_db_path", old_path);
-                //key.Close();rkey.Close();
                 DbInihelper.SetIniData(Share.iniconfig_action, "db_path", new_db_path, Share.iniconfig_path);
                 DbInihelper.SetIniData(Share.iniconfig_action, "old_db_path", old_path, Share.iniconfig_path);
                 Share.fm.set_db_path(new_db_path);
