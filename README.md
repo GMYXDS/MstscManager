@@ -7,7 +7,7 @@
 
 MSTSC远程管理器
 
-一个支持MSTSC，Putty，Xshell，Xftp，Radmin，VNC，Winscp，SecureCRT，MobaXterm，向日葵，Todesk的远程管理器
+一个支持MSTSC，Putty，Xshell，Xftp，Radmin，VNC，Winscp，SecureCRT，MobaXterm，Todesk的远程管理器
 
 ## 已支持的功能
 
@@ -38,6 +38,10 @@ MSTSC远程管理器
 - [x] 添加了批量检测
 - [x] 优化导入导出txt卡顿问题，将txt导入导出改成了csv导入导出
 - [x] 优化整体软件交互速度
+
+### 更新说明
+
+ [Updates.md](Updates.md) 
 
 ## 如何下载
 
