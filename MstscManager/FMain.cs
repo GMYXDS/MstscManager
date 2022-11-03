@@ -42,15 +42,15 @@ namespace MstscManager {
         };
         List<string> allow_types = new List<string> {
             "RDP",
-            "Putty-ssh","Putty-telnet",
-            "Xshell-ssh","Xshell-telnet","Xshell-sftp",
-            "Xftp-sftp","Xshell-ftp",
-            "Radmin-完全控制","Radmin-仅限查看","Radmin-telnet","Radmin-文件传送","Radmin-关机","Radmin-聊天","Radmin-语音聊天","Radmin-传送信息",
+            "Putty-ssh","Putty-telnet","Putty-自定义",
+            "Xshell-ssh","Xshell-telnet","Xshell-sftp","Xshell-自定义",
+            "Xftp-sftp","Xshell-ftp","Xftp-自定义",
+            "Radmin-完全控制","Radmin-仅限查看","Radmin-telnet","Radmin-文件传送","Radmin-关机","Radmin-聊天","Radmin-语音聊天","Radmin-传送信息","Radmin-自定义",
             "VNC-tightvnc","VNC-realvnc","VNC-ultravnc",
-            "Winscp-sftp","Winscp-scp","Winscp-ftp",
-            "SecureCrt-ssh1","SecureCrt-ssh2","SecureCrt-telnet",
-            "Mobaxterm-ssh","Mobaxterm-telnet",
-            "Todesk",
+            "Winscp-sftp","Winscp-scp","Winscp-ftp","Winscp-自定义",
+            "SecureCrt-ssh1","SecureCrt-ssh2","SecureCrt-telnet","SecureCrt-自定义",
+            "Mobaxterm-ssh","Mobaxterm-telnet","Mobaxterm-自定义",
+            "Todesk","Todesk-自定义",
         };
         string current_group_id = "-1";
         string save_width = "";
@@ -167,16 +167,16 @@ namespace MstscManager {
                     Pooling = true,
                 }.ToString();
                 DbSqlHelper.ConnectionString = connectionString;
-                if(DbSqlHelper.common_conn==null) DbSqlHelper.common_conn = new SqliteConnection(connectionString);
-                if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
+                //if(DbSqlHelper.common_conn==null) DbSqlHelper.common_conn = new SqliteConnection(connectionString);
+                //if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
                 // 开始计时
                 //Stopwatch watch = new Stopwatch();
                 //watch.Start();
                 //DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
-                DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS Group_setting( ID integer PRIMARY KEY AUTOINCREMENT , group_name TEXT,group_head_id TEXT);");
-                DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS Commom_setting( ID integer PRIMARY KEY AUTOINCREMENT , key TEXT, val TEXT);");
-                DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS User_setting( ID integer PRIMARY KEY AUTOINCREMENT , user_name TEXT, user_pass TEXT, mark_text TEXT);");
-                DbSqlHelper.ExecuteNonQuery("CREATE TABLE IF NOT EXISTS Server_setting( ID integer PRIMARY KEY AUTOINCREMENT , server_name TEXT, group_id integer, connect_type TEXT, ip TEXT, port TEXT, user_name TEXT, user_pass TEXT, end_date TEXT,mark_text TEXT,user_id integer,connect_setting TEXT,connect_string TEXT);");
+                DbSqlHelper.ExecuteNonQuery2("CREATE TABLE IF NOT EXISTS Group_setting( ID integer PRIMARY KEY AUTOINCREMENT , group_name TEXT,group_head_id TEXT);");
+                DbSqlHelper.ExecuteNonQuery2("CREATE TABLE IF NOT EXISTS Commom_setting( ID integer PRIMARY KEY AUTOINCREMENT , key TEXT, val TEXT);");
+                DbSqlHelper.ExecuteNonQuery2("CREATE TABLE IF NOT EXISTS User_setting( ID integer PRIMARY KEY AUTOINCREMENT , user_name TEXT, user_pass TEXT, mark_text TEXT);");
+                DbSqlHelper.ExecuteNonQuery2("CREATE TABLE IF NOT EXISTS Server_setting( ID integer PRIMARY KEY AUTOINCREMENT , server_name TEXT, group_id integer, connect_type TEXT, ip TEXT, port TEXT, user_name TEXT, user_pass TEXT, end_date TEXT,mark_text TEXT,user_id integer,connect_setting TEXT,connect_string TEXT);");
                 //DbSqlHelper.common_transaction.Commit();
                 //DbSqlHelper.common_transaction = null;
                 // 停止计时
@@ -256,7 +256,7 @@ namespace MstscManager {
             else load_server_table("select * from Server_setting where group_id = ?", current_group_id);
         }
         private void load_server_table(string sql, params object[] p) {
-            SqliteDataReader reader = DbSqlHelper.ExecuteReader(sql, p);
+            SqliteDataReader reader = DbSqlHelper.ExecuteReader2(sql, p);
             int serer_num = 0;
             while (reader.Read()) {
                 int index = uiDataGridView1.Rows.Add((string)reader["connect_type"],
@@ -329,7 +329,7 @@ namespace MstscManager {
             //如果父节点不为顶级节点，需要查询父节点id
             int head_group_id = -1;
             if (parent_node != null) {
-                SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?", parent_node.Text.ToString());
+                SqliteDataReader reader = DbSqlHelper.ExecuteReader2("select * from Group_setting where group_name = ?", parent_node.Text.ToString());
                 bool flag = reader.Read();
                 if (flag) {
                     head_group_id = Convert.ToInt32(reader["id"]);
@@ -351,7 +351,7 @@ namespace MstscManager {
                 //uiTreeView1.SelectedNode = tmp;
                 //uiTreeView1.ExpandAll();
 
-                DbSqlHelper.ExecuteNonQuery("insert into Group_setting (group_name,group_head_id) values (?,?)", group_name, head_group_id);
+                DbSqlHelper.ExecuteNonQuery2("insert into Group_setting (group_name,group_head_id) values (?,?)", group_name, head_group_id);
                 if(parent_node==null)
                     uiTreeView1.Nodes.Add(group_name, group_name, 0, 1);
                 else 
@@ -374,7 +374,7 @@ namespace MstscManager {
             if (this.InputStringDialog(ref group_name, true, "请输入分组名称：", false)) {
                 if (group_name == "") return;
                 //拿到head节点，head节点id
-                SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?", head_group_name);
+                SqliteDataReader reader = DbSqlHelper.ExecuteReader2("select * from Group_setting where group_name = ?", head_group_name);
                 int head_group_id = -1;
                 bool flag = reader.Read();
                 if (flag) {
@@ -393,7 +393,7 @@ namespace MstscManager {
                 uiTreeView1.SelectedNode = tmp;
                 //uiTreeView1.ExpandAll();
 
-                DbSqlHelper.ExecuteNonQuery("insert into Group_setting (group_name,group_head_id) values (?,?)", group_name, head_group_id);
+                DbSqlHelper.ExecuteNonQuery2("insert into Group_setting (group_name,group_head_id) values (?,?)", group_name, head_group_id);
                 //this.uiTreeView1.Nodes.Add(group_name, group_name, 0, 1);
                 this.uiComboBox2.Items.Add(group_name);
             }
@@ -411,7 +411,7 @@ namespace MstscManager {
                 return;
             }
             if (ShowAskDialog("确定要删除<"+select_name+">分类吗？",false)) {
-                SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?", select_name);
+                SqliteDataReader reader = DbSqlHelper.ExecuteReader2("select * from Group_setting where group_name = ?", select_name);
                 int group_id = -1;
                 bool flag = reader.Read();
                 if (flag) {
@@ -422,8 +422,8 @@ namespace MstscManager {
                     ShowErrorTip("没有查询到该分组！");
                     return;
                 }
-                DbSqlHelper.ExecuteNonQuery("delete from Group_setting where group_name = ?", select_name);
-                DbSqlHelper.ExecuteNonQuery("delete from Server_setting where group_id = ?", group_id);
+                DbSqlHelper.ExecuteNonQuery2("delete from Group_setting where group_name = ?", select_name);
+                DbSqlHelper.ExecuteNonQuery2("delete from Server_setting where group_id = ?", group_id);
                 this.uiTreeView1.Nodes.Remove(select_node);
                 this.uiComboBox2.Items.Remove(select_name);
                 clear_old_info();
@@ -438,7 +438,7 @@ namespace MstscManager {
             }
             if (this.InputStringDialog(ref new_group_name, true, "请输入新分组名称：", false)) {
                 if (new_group_name == "") return;
-                DbSqlHelper.ExecuteNonQuery("update Group_setting set group_name = ? where group_name = ?", new_group_name, select_name);
+                DbSqlHelper.ExecuteNonQuery2("update Group_setting set group_name = ? where group_name = ?", new_group_name, select_name);
                 this.uiTreeView1.SelectedNode.Text = new_group_name;
                 this.uiComboBox2.Items.Remove (select_name);
                 this.uiComboBox2.Items.Add (new_group_name);
@@ -473,7 +473,7 @@ namespace MstscManager {
             var group_name = e.Node.Text;
             clear_old_info();
             if (group_name == "全部分类") { init_server_table(); return; }
-            SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?", group_name);
+            SqliteDataReader reader = DbSqlHelper.ExecuteReader2("select * from Group_setting where group_name = ?", group_name);
             int group_id = -1;
             bool flag = reader.Read();
             if (flag) { group_id = Convert.ToInt32(reader["id"]); current_group_id = reader["id"].ToString(); }
@@ -504,6 +504,7 @@ namespace MstscManager {
                 var selected_rows = uiDataGridView1.SelectedRows;
                 try {
                     int len = uiDataGridView1.SelectedRows.Count;
+                    if (DbSqlHelper.common_conn == null) DbSqlHelper.common_conn = new SqliteConnection(DbSqlHelper.ConnectionString);
                     if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
                     DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
                     for (int i = 0; i < len; i++) {
@@ -517,6 +518,7 @@ namespace MstscManager {
                     }
                     DbSqlHelper.common_transaction.Commit();
                     DbSqlHelper.common_transaction = null;
+                    DbSqlHelper.common_conn.Close();
                 } catch (Exception) { };
                 HideStatusForm();
                 ShowSuccessTip("数据删除成功");
@@ -529,21 +531,23 @@ namespace MstscManager {
                 "服务器名称,分类名称,连接类型,IP,端口,用户名,密码,到期时间,服务器备注,自定义规则\n" +
                 "10个数据，中间用英文逗号分开，没有的数据留空，一行一条数据\n" +
                 "其中连接类型只能是下面列表里面的之一,区分大小写：\n" +
-                "RDP, Putty-ssh,Putty-telnet, Xshell-ssh,Xshell-telnet,Xshell-sftp, Xftp-sftp,Xshell-ftp, Radmin-完全控制,Radmin-仅限查看,Radmin-telnet,Radmin-文件传送,Radmin-关机,Radmin-聊天,Radmin-语音聊天,Radmin-传送信息, VNC-tightvnc,VNC-realvnc,VNC-ultravnc, Winscp-sftp,Winscp-scp,Winscp-ftp, SecureCrt-ssh1,SecureCrt-ssh2,SecureCrt-telnet，Mobaxterm-ssh，Mobaxterm-telnet，Todesk\n" +
+                String.Join(" , ", allow_types) +
                 "不符合格式的数据将直接忽略，可以使用导出的模板进行编辑。";
             if (ShowAskDialog(tip_msg)) {
                 //ShowSuccessTip("您点击了确定按钮");
                 //选择导入的文件
                 string file_path = show_dialog();
                 if (file_path == "") return;
+
                 //拿grouplist
                 Dictionary<string, string> group_dic = new Dictionary<string, string>();
-                DbDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting");
+                DbDataReader reader = DbSqlHelper.ExecuteReader2("select * from Group_setting");
                 while (reader.Read()) {
                     group_dic.Add(reader["group_name"].ToString(), reader["id"].ToString());
                 }
                 group_dic.Add("全部分类","-1");
                 reader.Close();
+
                 string[]? contents = null;
                 try {
                     contents = File.ReadAllLines(file_path, Encoding.UTF8);
@@ -553,18 +557,19 @@ namespace MstscManager {
                 // 开始计时
                 //Stopwatch watch = new Stopwatch();
                 //watch.Start();
-                if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
-                DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
+
+                ShowStatusForm(contents.Length, "数据添加中......", 0);
+                //添加分组
                 for (int i = 0; i < contents.Length; i++) {
-                    if(i==0) continue;  
+                    if (i == 0) continue;
                     string[] strNew = contents[i].Split(new char[] { ',' });
                     if (strNew.Length != 10) continue;
-                    if(!allow_types.Contains(strNew[2])) continue;
+                    if (!allow_types.Contains(strNew[2])) continue;
                     string group_id = "-1";
                     if (!group_dic.Keys.Contains(strNew[1])) { //insert gourp
-                        DbSqlHelper.ExecuteNonQuery("INSERT INTO Group_setting (group_name) VALUES (?)", strNew[1]);
+                        DbSqlHelper.ExecuteNonQuery2("INSERT INTO Group_setting (group_name,group_head_id) VALUES (?,-1)", strNew[1]);
                         //Thread.Sleep(500);
-                        SqliteDataReader reader1 = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?", strNew[1]);
+                        SqliteDataReader reader1 = DbSqlHelper.ExecuteReader2("select * from Group_setting where group_name = ?", strNew[1]);
                         if (reader1.Read()) {
                             group_dic.Add(strNew[1], reader1["id"].ToString());
                             this.uiTreeView1.Nodes.Add(strNew[1], strNew[1], 0, 1);
@@ -573,15 +578,33 @@ namespace MstscManager {
                         reader1.Close();
                     }
                     group_id = group_dic[strNew[1]];
-                    string connect_setting = get_default_config(true, strNew,group_id);
-                    if (connect_setting == "") continue;
-                    DbSqlHelper.ExecuteNonQuery("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",strNew[0], group_id, strNew[2], strNew[3], strNew[4], strNew[5], strNew[6], strNew[7], strNew[8], "-1", connect_setting, strNew[9]);
                 }
+                if (DbSqlHelper.common_conn == null) DbSqlHelper.common_conn = new SqliteConnection(DbSqlHelper.ConnectionString);
+                if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
+                DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
+                
+                //插入数据
+                for (int i = 0; i < contents.Length; i++) {
+                    if (i == 0) continue;
+                    string[] strNew = contents[i].Split(new char[] { ',' });
+                    if (strNew.Length != 10) continue;
+                    if (!allow_types.Contains(strNew[2])) continue;
+                    string group_id = "-1";
+                    group_id = group_dic[strNew[1]];
+                    string connect_setting = get_default_config(true, strNew, group_id);
+                    if (connect_setting == "") continue;
+                    DbSqlHelper.ExecuteNonQuery("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);", strNew[0], group_id, strNew[2], strNew[3], strNew[4], strNew[5], strNew[6], strNew[7], strNew[8], "-1", connect_setting, strNew[9]);
+                    SetStatusFormDescription("数据添加中......");
+                    StatusFormStepIt();
+                }
+
                 DbSqlHelper.common_transaction.Commit();
                 DbSqlHelper.common_transaction = null;
+                DbSqlHelper.common_conn.Close();
                 // 停止计时
                 //watch.Stop();
                 //Console.WriteLine(watch.Elapsed);
+                HideStatusForm();
                 refresh_server_table();
                 UIMessageDialog.ShowMessageDialog("数据导入成功！", "提示", false, Style, false);
             }
@@ -618,6 +641,7 @@ namespace MstscManager {
                 reader.Read();
                 string goup_id = reader["id"].ToString();
                 reader.Close();
+                if (DbSqlHelper.common_conn == null) DbSqlHelper.common_conn = new SqliteConnection(DbSqlHelper.ConnectionString);
                 if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
                 DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
                 foreach (string keyname in names) {
@@ -638,6 +662,7 @@ namespace MstscManager {
                 }
                 DbSqlHelper.common_transaction.Commit();
                 DbSqlHelper.common_transaction = null;
+                DbSqlHelper.common_conn.Close();
                 key.Close();
                 rkey.Close();
                 HideStatusForm();
@@ -666,18 +691,18 @@ namespace MstscManager {
                 File.AppendAllText(path, "服务器名称,分类名称,连接类型,IP,端口,用户名,密码,到期时间,服务器备注,自定义规则\r\n", Encoding.UTF8);
                 //读取group
                 Dictionary<string, string> group_dic = new Dictionary<string, string>();
-                DbDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting");
+                DbDataReader reader = DbSqlHelper.ExecuteReader2("select * from Group_setting");
                 while (reader.Read()) {
                     group_dic.Add(reader["id"].ToString(), reader["group_name"].ToString());
                 }
                 reader.Close();
                 Dictionary<string, string> user_dic = new Dictionary<string, string>();
-                DbDataReader reader1 = DbSqlHelper.ExecuteReader("select * from User_setting");
+                DbDataReader reader1 = DbSqlHelper.ExecuteReader2("select * from User_setting");
                 while(reader1.Read()) {
                     user_dic.Add(reader1["id"].ToString(), reader1["user_name"].ToString()+ spilt_txt + reader1["user_pass"].ToString());
                 }
                 reader1.Close();
-                DbDataReader reader2 = DbSqlHelper.ExecuteReader("select * from Server_setting");
+                DbDataReader reader2 = DbSqlHelper.ExecuteReader2("select * from Server_setting");
                 while (reader2.Read()) {
                     string s = reader2["server_name"].ToString()+ spilt_txt;
                     string group_id = reader2["group_id"].ToString();
@@ -816,13 +841,13 @@ namespace MstscManager {
             //string new_connect_setting = JsonConvert.SerializeObject(config);
             string group_name = config["group_name"].ToString();
             if (group_name != "全部分类") {
-                SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?", group_name);
+                SqliteDataReader reader = DbSqlHelper.ExecuteReader2("select * from Group_setting where group_name = ?", group_name);
                 if (reader.Read()) {
                     config["group_id"] = reader["id"].ToString();
                 }
                 reader.Close();
             }
-            DbSqlHelper.ExecuteNonQuery("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",
+            DbSqlHelper.ExecuteNonQuery2("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",
                 config["server_name"].ToString(), config["group_id"].ToString(), config["connect_type"].ToString(), config["ip"].ToString(), config["port"].ToString(), config["user_name"].ToString(), config["user_pass"].ToString(), config["end_date"].ToString(), config["mark_text"].ToString(), config["user_id"].ToString(), connect_setting, config["connect_string"].ToString());
             refresh_server_table();
             UIMessageDialog.ShowMessageDialog("数据添加成功！", "提示", false, Style, false);
@@ -860,7 +885,7 @@ namespace MstscManager {
             //补全userid的密码
             string user_id = csobj["user_id"].ToString();
             if (user_id != "-1") {
-                DbDataReader reader = DbSqlHelper.ExecuteReader("select * from User_setting where id = ?", user_id);
+                DbDataReader reader = DbSqlHelper.ExecuteReader2("select * from User_setting where id = ?", user_id);
                 if (reader.Read()) {
                     csobj["user_name"] = reader["user_name"].ToString();
                     csobj["user_pass"] = reader["user_pass"].ToString();
@@ -1296,7 +1321,7 @@ namespace MstscManager {
         private void drag_move_group(string target_id,string group_name) {
             string group_id = "-1";
             if (group_name != "全部分类") {
-                SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?", group_name);
+                SqliteDataReader reader = DbSqlHelper.ExecuteReader2("select * from Group_setting where group_name = ?", group_name);
                 if (reader.Read()) {
                     group_id = reader["id"].ToString();
                 }
@@ -1304,7 +1329,7 @@ namespace MstscManager {
                 if (group_id == "-1") return;
             }
             string connect_setting = "";
-            SqliteDataReader reader1 = DbSqlHelper.ExecuteReader("select connect_setting from Server_setting where id = ?", target_id.ToString());
+            SqliteDataReader reader1 = DbSqlHelper.ExecuteReader2("select connect_setting from Server_setting where id = ?", target_id.ToString());
             if (reader1.Read()) {
                 connect_setting = reader1["connect_setting"].ToString();
             }
@@ -1314,7 +1339,7 @@ namespace MstscManager {
             connect_setting1["group_id"] = group_id;
             connect_setting1["group_name"] = group_name;
             connect_setting = JsonConvert.SerializeObject(connect_setting1);
-            DbSqlHelper.ExecuteNonQuery("update Server_setting set group_id = ? ,connect_setting = ? where id = ? ", group_id, connect_setting, target_id);
+            DbSqlHelper.ExecuteNonQuery2("update Server_setting set group_id = ? ,connect_setting = ? where id = ? ", group_id, connect_setting, target_id);
             ShowSuccessTip("移动成功！");
             refresh_server_table();
         }

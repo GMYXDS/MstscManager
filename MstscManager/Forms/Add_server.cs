@@ -352,13 +352,13 @@ namespace MstscManager.Forms {
             string notice_msg = "数据添加成功！";
             if (!is_update) {
                 //保存数据库
-                DbSqlHelper.ExecuteNonQuery("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",
+                DbSqlHelper.ExecuteNonQuery2("INSERT INTO Server_setting(server_name,group_id,connect_type,ip,port,user_name,user_pass,end_date,mark_text,user_id,connect_setting,connect_string) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",
                 config["server_name"], config["group_id"], config["connect_type"], config["ip"], config["port"], config["user_name"], config["user_pass"], config["end_date"], config["mark_text"], config["user_id"], config["connect_setting"], config["connect_string"]);
                 //ShowInfoNotifier("数据添加成功！");
             } else {
                 //更新
                 //保存数据库
-                DbSqlHelper.ExecuteNonQuery("update Server_setting set server_name = ?,group_id = ?,connect_type = ?,ip = ?,port = ?,user_name = ?,user_pass = ?,end_date = ?,mark_text = ?,user_id = ?,connect_setting = ?,connect_string = ? where id = ?",
+                DbSqlHelper.ExecuteNonQuery2("update Server_setting set server_name = ?,group_id = ?,connect_type = ?,ip = ?,port = ?,user_name = ?,user_pass = ?,end_date = ?,mark_text = ?,user_id = ?,connect_setting = ?,connect_string = ? where id = ?",
                 config["server_name"], config["group_id"], config["connect_type"], config["ip"], config["port"], config["user_name"], config["user_pass"], config["end_date"], config["mark_text"], config["user_id"], config["connect_setting"], config["connect_string"],target_id);
                 notice_msg = "数据更新成功！";
             }

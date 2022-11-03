@@ -32,6 +32,27 @@ namespace MstscManager.Utils {
             }
             cmd.Prepare();
         }
+        private static void PrepareCommand2(SqliteCommand cmd, SqliteConnection conn, string cmdText, params object[] p) {
+            if (conn.State != ConnectionState.Open) conn.Open();
+            cmd.Parameters.Clear();
+            cmd.Connection = conn;
+            cmd.CommandText = cmdText;
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandTimeout = 30;
+            if (p != null) {
+                int index = 0;
+                while (index < p.Length) {
+                    cmd.CommandText = cmd.CommandText.ReplaceOne("?", "$t" + index.ToString());
+                    index++;
+                }
+                index = 0;
+                foreach (object parm in p) {
+                    cmd.Parameters.AddWithValue("$t" + index.ToString(), parm);
+                    index++;
+                }
+            }
+            cmd.Prepare();
+        }
         public static int ExecuteNonQuery(string cmdText, params object[] p) {
             if (common_conn == null) common_conn = new SqliteConnection(ConnectionString);
             //using (SqliteConnection conn = new SqliteConnection(ConnectionString)) {
@@ -45,7 +66,7 @@ namespace MstscManager.Utils {
             //if (common_conn == null) common_conn = new SqliteConnection(ConnectionString);
             using (SqliteConnection conn = new SqliteConnection(ConnectionString)) {
                 using (SqliteCommand command = new SqliteCommand()) {
-                PrepareCommand(command, conn, cmdText, p);
+                PrepareCommand2(command, conn, cmdText, p);
                 return command.ExecuteNonQuery();
             }
         }
@@ -61,7 +82,7 @@ namespace MstscManager.Utils {
             //if (common_conn == null) common_conn = new SqliteConnection(ConnectionString);
             SqliteConnection conn = new SqliteConnection(ConnectionString);
             SqliteCommand command = new SqliteCommand();
-            PrepareCommand(command, conn, cmdText, p);
+            PrepareCommand2(command, conn, cmdText, p);
             return command.ExecuteReader(CommandBehavior.CloseConnection);
 
         }

@@ -39,9 +39,9 @@ namespace MstscManager.Controls {
             path = path.Replace(System.Environment.CurrentDirectory+"\\", "");
             //Console.WriteLine(path);
             if (button.Text != "") {//update
-                DbSqlHelper.ExecuteNonQuery("update Commom_setting set val = ? where key = ?", path, key);
+                DbSqlHelper.ExecuteNonQuery2("update Commom_setting set val = ? where key = ?", path, key);
             } else {//insert
-                DbSqlHelper.ExecuteNonQuery("INSERT INTO Commom_setting (key,val) VALUES (?,?);", key, path);
+                DbSqlHelper.ExecuteNonQuery2("INSERT INTO Commom_setting (key,val) VALUES (?,?);", key, path);
             }
             button.Text = path;
         }

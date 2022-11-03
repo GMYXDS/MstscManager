@@ -15,7 +15,7 @@ namespace MstscManager.Forms {
             string mark_text = uiTextBox3.Text;
             if (user_name == "") { ShowWarningTip("<用户名>是必须的！"); return; }
             if (user_pass == "") { ShowWarningTip("<密码>是必须的！"); return; }
-            DbSqlHelper.ExecuteNonQuery("insert into User_setting (user_name,user_pass,mark_text) values (?,?,?)", user_name, user_pass, mark_text);
+            DbSqlHelper.ExecuteNonQuery2("insert into User_setting (user_name,user_pass,mark_text) values (?,?,?)", user_name, user_pass, mark_text);
             //ShowInfoNotifier("数据添加成功！");
             ShowSuccessTip("数据添加成功");
             //刷新界面？
@@ -28,7 +28,7 @@ namespace MstscManager.Forms {
             if (ShowAskDialog("确定要删除当前选中的账号吗？删除之后，如果有关联的服务器将失效！", false)) {
                 string id = uiDataGridView1.SelectedRows[0].Cells[3].Value.ToString();
                 //Console.WriteLine(id);
-                DbSqlHelper.ExecuteNonQuery("delete from User_setting where id = ?", id);
+                DbSqlHelper.ExecuteNonQuery2("delete from User_setting where id = ?", id);
                 uiDataGridView1.Rows.Remove(uiDataGridView1.SelectedRows[0]);
                 ShowSuccessTip("数据删除成功");
             }
@@ -70,7 +70,7 @@ namespace MstscManager.Forms {
         private void update_table() {
             UIDataGridView view = uiDataGridView1;
             view.Rows.Clear();
-            SqliteDataReader reader = DbSqlHelper.ExecuteReader("select * from User_setting");
+            SqliteDataReader reader = DbSqlHelper.ExecuteReader2("select * from User_setting");
             while (reader.Read()) {
                 view.Rows.Add(reader["user_name"], reader["user_pass"], reader["mark_text"], reader["id"]);
             }
@@ -85,7 +85,7 @@ namespace MstscManager.Forms {
             string mark_text = uiTextBox3.Text;
             if (user_name == "") { ShowWarningTip("<用户名>是必须的！"); return; }
             if (user_pass == "") { ShowWarningTip("<密码>是必须的！"); return; }
-            DbSqlHelper.ExecuteNonQuery("update User_setting set user_name = ?,user_pass = ?,mark_text = ? where id = ? ", user_name, user_pass, mark_text,id);
+            DbSqlHelper.ExecuteNonQuery2("update User_setting set user_name = ?,user_pass = ?,mark_text = ? where id = ? ", user_name, user_pass, mark_text,id);
             ShowSuccessTip("数据更新成功");
             update_table();
         }
