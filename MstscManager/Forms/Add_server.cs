@@ -18,6 +18,13 @@ namespace MstscManager.Forms {
         public Add_server() {
             InitializeComponent();
             init();
+            only_add_server();
+        }
+        public void only_add_server() {
+            uiSymbolButton1.Visible = false;
+            uiSymbolButton3.Visible = false;
+            uiTextBox4.Width = 199;
+            uiTextBox5.Width = 199;
         }
         public Add_server(string connect_setting, string target_id) {
             InitializeComponent();
@@ -130,7 +137,8 @@ namespace MstscManager.Forms {
                 string group_name = (string)reader["group_name"];
                 uiComboBox2.Items.Add(group_name);
             }
-            uiComboBox2.Text = "全部分类";
+            //uiComboBox2.Text = "全部分类";
+            uiComboBox2.Text = Share.now_group_name;
             reader.Close();
 
             //初始化用户下拉选择框
@@ -426,7 +434,7 @@ namespace MstscManager.Forms {
             string value = "";
             if (this.InputPasswordDialog(ref value, true, "请输入管理员密码", true)) {
                 if (common_tools.md5(value.ToString()) == Share.fm.password) {
-                    if (target_id.ToString() != "-1") {
+                    if (select_user_id.ToString() != "-1") {
                         ShowInfoTip("请到账户管理里面查看该id的密码！");
                         return;
                     } else {

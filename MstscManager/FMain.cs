@@ -320,6 +320,13 @@ namespace MstscManager {
             thf.Show();
             thf.BringToFront();
         }
+        //其他功能关闭
+        public void auto_close_oth_func() {
+            if (this.Controls.ContainsKey("OthoerFun")) {
+                this.Controls.Remove(this.Controls["OthoerFun"]);
+                return;
+            }
+        }
         private void FMain_Load(object sender, EventArgs e) {
             this.StartPosition = FormStartPosition.CenterScreen;
             Share.fm = this;
@@ -636,11 +643,16 @@ namespace MstscManager {
                 String[] names = key.GetValueNames();
                 int index = 1;
                 ShowStatusForm(names.Length, "数据导入中......", 0);
-                //查询当前选中的分组名称和id
-                DbDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?;",Share.now_group_name);
-                reader.Read();
-                string goup_id = reader["id"].ToString();
-                reader.Close();
+                string goup_id = "-1";
+                if (Share.now_group_name == "全部分类") {
+                } else {
+                    //查询当前选中的分组名称和id
+                    DbDataReader reader = DbSqlHelper.ExecuteReader("select * from Group_setting where group_name = ?;", Share.now_group_name);
+                    reader.Read();
+                    goup_id = reader["id"].ToString();
+                    reader.Close();
+                }
+
                 if (DbSqlHelper.common_conn == null) DbSqlHelper.common_conn = new SqliteConnection(DbSqlHelper.ConnectionString);
                 if (DbSqlHelper.common_conn.State != ConnectionState.Open) DbSqlHelper.common_conn.Open();
                 DbSqlHelper.common_transaction = DbSqlHelper.common_conn.BeginTransaction();
@@ -777,7 +789,13 @@ namespace MstscManager {
                 //适配点击右下角连接服务器 v1.2
                 if (user_pass == "") {
                     //补全userid的密码
-                    string user_id = now_csobj["user_id"].ToString();
+                    string user_id = "";
+                    try {
+                        user_id = now_csobj["user_id"].ToString();
+                    } catch (Exception) {
+                        ShowErrorTip("临时链接服务器信息不能为空！");
+                        return "";
+                    }
                     if (user_id != "-1") {
                         DbDataReader reader = DbSqlHelper.ExecuteReader("select * from User_setting where id = ?", user_id);
                         if (reader.Read()) {

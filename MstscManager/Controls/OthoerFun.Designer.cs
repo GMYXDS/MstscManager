@@ -31,12 +31,12 @@
             // uiButton5
             // 
             this.uiButton5.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiButton5.Location = new System.Drawing.Point(1, 3);
+            this.uiButton5.Location = new System.Drawing.Point(3, 3);
             this.uiButton5.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton5.Name = "uiButton5";
             this.uiButton5.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
             this.uiButton5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.uiButton5.Size = new System.Drawing.Size(89, 35);
+            this.uiButton5.Size = new System.Drawing.Size(83, 35);
             this.uiButton5.TabIndex = 2;
             this.uiButton5.Text = "导入本机mstsc";
             this.uiButton5.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -45,12 +45,12 @@
             // uiButton1
             // 
             this.uiButton1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiButton1.Location = new System.Drawing.Point(1, 44);
+            this.uiButton1.Location = new System.Drawing.Point(3, 44);
             this.uiButton1.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton1.Name = "uiButton1";
             this.uiButton1.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
             this.uiButton1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.uiButton1.Size = new System.Drawing.Size(89, 35);
+            this.uiButton1.Size = new System.Drawing.Size(83, 35);
             this.uiButton1.TabIndex = 3;
             this.uiButton1.Text = "账户管理";
             this.uiButton1.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);
@@ -59,12 +59,12 @@
             // uiButton2
             // 
             this.uiButton2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.uiButton2.Location = new System.Drawing.Point(0, 85);
+            this.uiButton2.Location = new System.Drawing.Point(2, 85);
             this.uiButton2.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiButton2.Name = "uiButton2";
             this.uiButton2.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
             this.uiButton2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.uiButton2.Size = new System.Drawing.Size(89, 35);
+            this.uiButton2.Size = new System.Drawing.Size(83, 35);
             this.uiButton2.TabIndex = 4;
             this.uiButton2.Text = "批量检测";
             this.uiButton2.ZoomScaleRect = new System.Drawing.Rectangle(0, 0, 0, 0);

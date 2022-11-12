@@ -46,8 +46,8 @@ namespace MstscManager.Controls {
 
             string keyboardhook = (string)(uiComboBox6.SelectedItem == null ? uiComboBox6.Text : uiComboBox6.SelectedItem);
             config.Add("keyboardhook_name", keyboardhook);
-            if (keyboardhook == "在这台计算机上") config.Add("keyboardhook", "1");
-            else if (keyboardhook == "在远程计算机上") config.Add("keyboardhook", "3");
+            if (keyboardhook == "在这台计算机上") config.Add("keyboardhook", "0");
+            else if (keyboardhook == "在远程计算机上") config.Add("keyboardhook", "1");
             else if (keyboardhook == "仅在全屏显示时") config.Add("keyboardhook", "2");
             else config.Add("keyboardhook", "2");
 
