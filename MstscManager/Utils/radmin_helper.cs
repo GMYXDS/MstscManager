@@ -58,6 +58,8 @@ namespace MstscManager.Utils {
         public static void auto_password(string ip,string user,string pass) {
             #region 钩子过程
             IntPtr mainWnd = FindWindow(null, "Radmin 安全性: "+ip);
+            Thread.Sleep(1000);
+            mainWnd = FindWindow(null, "Radmin 安全性: " + ip);
             for (int i = 0; i < 30; i++)        //最大查找3秒
             {
                 if (mainWnd != IntPtr.Zero) {
@@ -68,19 +70,18 @@ namespace MstscManager.Utils {
             }
             if (mainWnd == IntPtr.Zero) {//3秒内找不到就退出。
                 Console.WriteLine("没找到窗口");
-                //mainWnd = FindWindow("#32770 (对话框)", null);
-                //for (int i = 0; i < 30; i++)        //最大查找3秒
-                //{
-                //    if (mainWnd != IntPtr.Zero) {
-                //        Trace.WriteLine(System.DateTime.UtcNow.ToString() + "找到！");
-                //        break;
-                //    }
-                //    Thread.Sleep(100);
-                //}
-                //if (mainWnd == IntPtr.Zero) {//3秒内找不到就退出。
-                //    return;
-                //}
-                return;
+                mainWnd = FindWindow(null, "Windows 安全性：" + ip);
+                for (int i = 0; i < 30; i++)        //最大查找3秒
+                {
+                    if (mainWnd != IntPtr.Zero) {
+                        Trace.WriteLine(System.DateTime.UtcNow.ToString() + "找到！");
+                        break;
+                    }
+                    Thread.Sleep(100);
+                }
+                if (mainWnd == IntPtr.Zero) {//3秒内找不到就退出。
+                    return;
+                }
             }        
 
             List<IntPtr> listWnd = new List<IntPtr>();

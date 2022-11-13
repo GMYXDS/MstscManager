@@ -7,7 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>remote-desktop-512.ico</ApplicationIcon>
-    <AssemblyName>MstscManager</AssemblyName>
+    <AssemblyName>MSTSC远程管理器</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
